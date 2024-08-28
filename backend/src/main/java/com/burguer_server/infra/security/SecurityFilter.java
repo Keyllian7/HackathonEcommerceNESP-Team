@@ -1,6 +1,6 @@
-package com.burguer_server.Application.infra.security;
+package com.burguer_server.infra.security;
 
-import com.burguer_server.Application.repositories.UserRepository;
+import com.burguer_server.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

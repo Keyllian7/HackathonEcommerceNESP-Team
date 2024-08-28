@@ -1,10 +1,10 @@
-package com.burguer_server.Application.infra.security;
+package com.burguer_server.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.burguer_server.Application.model.user.User;
+import com.burguer_server.user.User;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

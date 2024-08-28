@@ -1,7 +1,7 @@
-package com.burguer_server.Application.services;
+package com.burguer_server.services;
 
-import com.burguer_server.Application.model.user.User;
-import com.burguer_server.Application.repositories.UserRepository;
+import com.burguer_server.user.User;
+import com.burguer_server.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

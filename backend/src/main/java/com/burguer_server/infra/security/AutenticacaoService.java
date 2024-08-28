@@ -1,6 +1,6 @@
-package com.burguer_server.Application.infra.security;
+package com.burguer_server.infra.security;
 
-import com.burguer_server.Application.repositories.UserRepository;
+import com.burguer_server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

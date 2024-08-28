@@ -1,4 +1,4 @@
-package com.burguer_server.Application;
+package com.burguer_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

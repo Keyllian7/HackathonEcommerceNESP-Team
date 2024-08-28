@@ -1,11 +1,11 @@
-package com.burguer_server.Application.controllers;
+package com.burguer_server.controllers;
 
-import com.burguer_server.Application.infra.security.TokenService;
-import com.burguer_server.Application.model.user.User;
-import com.burguer_server.Application.payloads.auth.DadosAdmin;
-import com.burguer_server.Application.payloads.auth.DadosAutenticacao;
-import com.burguer_server.Application.payloads.auth.DadosToken;
-import com.burguer_server.Application.services.UserService;
+import com.burguer_server.infra.security.TokenService;
+import com.burguer_server.user.User;
+import com.burguer_server.auth.DadosAdmin;
+import com.burguer_server.auth.DadosAutenticacao;
+import com.burguer_server.auth.DadosToken;
+import com.burguer_server.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

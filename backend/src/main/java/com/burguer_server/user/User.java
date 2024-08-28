@@ -1,6 +1,6 @@
-package com.burguer_server.Application.model.user;
+package com.burguer_server.user;
 
-import com.burguer_server.Application.payloads.auth.DadosAutenticacao;
+import com.burguer_server.auth.DadosAutenticacao;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

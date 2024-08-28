@@ -1,4 +1,4 @@
-package com.burguer_server.Application.infra;
+package com.burguer_server.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;

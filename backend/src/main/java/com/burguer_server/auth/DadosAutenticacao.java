@@ -1,7 +1,7 @@
-package com.burguer_server.Application.payloads.auth;
+package com.burguer_server.auth;
 
-import com.burguer_server.Application.model.user.User;
-import com.burguer_server.Application.model.user.UserRole;
+import com.burguer_server.user.User;
+import com.burguer_server.user.UserRole;
 
 public record DadosAutenticacao(String email, String password, UserRole role) {
     public DadosAutenticacao(User u) {

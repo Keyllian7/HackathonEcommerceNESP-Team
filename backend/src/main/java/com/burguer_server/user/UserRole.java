@@ -1,4 +1,4 @@
-package com.burguer_server.Application.model.user;
+package com.burguer_server.user;
 
 public enum UserRole {
     ADMIN("admin"),
