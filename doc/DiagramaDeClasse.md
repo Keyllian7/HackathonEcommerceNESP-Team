@@ -1,132 +1,159 @@
 ```mermaid
 classDiagram
     class User{
-        -Long id
-        +String nome
-        -Login login
-        +login()
-        +CRUD()
-    }
-    
-    class Admin{
-    }
-    
-    class Customer{
-        -Adress adress
-        -String foneNumber
-        -List<Order> orders
-        -List<Order> getListOrders(customer)
-    }
-    
-    class Funcionario{
-        -int idFuncionario
-        -String name
-        -String cargo (Ex.: "Atendente", "Cozinheiro", "Gerente")
-        -float salario
-        -void atualizarPedido(Order order)
-        -void prepararPedido(Order order)
-        -void gerenciarEstoque()
-    }
-    
-    class Adress{
-        -Long id
-        -String cep
-        -String street
-        -String city
-        -int number
-        -String complemento
-        -String reference
-        +CRUD()
+        -Long userId
+        -Role userRole
+        -String userName
+        -String userLogin
+        -String userPassword
     }
 
-    class Stock{
-        -Map<Product, int>
-        -void atualizarQuantidade(Product product, int quantity)
-        -boolean verificarDisponibilidade(Product product)
+    class Role{
+        <<enum>>
+        BUYER
+        SELLER
+        BUYER_INACTIVE
+        SELLER_INACTIVE
     }
-    
+
+    class Seller{
+        -String role = SELLER
+        -Stock sellerStock
+        -void manageStock()
+        -void manageOrders()
+    }    
+
+    class Buyer{
+        -Role role = BUYER
+        -Adress buyerAdress
+        -String buyerFoneNumber
+        -List~Order~ buyerOrdersHistory
+        -Cart buyerCart
+        -List~Order~ getBuyerOrdersHistory(Long idBuyer)
+    }
+
+    class Adress{
+        -Long adressId
+        -String adressCep
+        -String adressStreet
+        -String adressCity
+        -int adressNumber
+        -String adressComplement
+        -String adressReference
+    }    
+
     class Product{
-        -Long id
-        -String name
-        -String description
-        -float price
-        -String category
-        -int inStock
-        -void atualizarPreco(float preco)
-        -void atualizarDescricao(String descricao)
+        -Long productId
+        -ProductCategory productCategory
+        -String productName
+        -float productPrice
+        -String productImageLink
+        -String productDescription
     }
-    
+
+    class ProductCategory{
+        <<enum>>
+        HAMBURGUER
+        DRINK
+    }
+
     class Hamburger{
-        -String note
     }
-    
+
     class Drink{
     }
+    
+    class Stock{
+        -Long stockId
+        -Map~Product, int~ stockProduct
+        -void updateStockProductQuantityAvailable(Product product, int quantity)
+        -boolean isAvailable(Product product)
+    }
 
-    class Order{
-        -Long id
-        -Customer customer
-        -List<orderItem> itens
-        -float subtotal
-        -float deliveryTax
-        -float total
-        -DateTime dateTime
-        -String status
-        -float calcularValorTotal()
-        -void atualizarStatus(String status)
-        -void adicionarItem(OrderItem item)
-        -void removerItem(OrderItem item)
+    class Cart{
     }
 
     class OrderItem{
-     -Product product
-     -int quantity
-     -String notes
-     -Float calcularPreco()
+        -Product product
+        -int quantity
+        -String notes
+        -Float calculateOrderItemTotal()
     }
 
+    class OrderStatus{
+        -Long orderStatusId
+        -Order order
+        -DateTime orderStatusTimeStamp
+        -String orderStatusDescription
+    }
+
+    class Order{
+        -Long orderId
+        -Customer orderCustomer
+        -List~OrderItem~ orderItens
+        -float orderDeliveryTax
+        -float orderTotal
+        -Payment orderPayment
+        -String currentOrderStatus
+        -List~OrderStatus~ statusHistory
+        -float calculateOrderTotal()
+        -void addOrderItem(OrderItem item)
+        -void updateOrderItem(OrderItem item)
+        -void removeOrderItem(OrderItem item)
+    }
+    
     class Payment{
         -Long idPayment
         -Order order
         -float total
         -boolean isPaid
-    
-        -String formaPagamento (Ex.: "Cartão de Crédito", "Dinheiro", "Pix")
-        -String statusPagamento (Ex.: "Pendente", "Pago")
+        -PaymentMethod paymentMethod
+        -PaymentStatus paymentStatus
+        -void processPayment()
+        -void updatePaymentStatus(PaymentStatus paymentStatus)
+    }
 
-        -void processarPagamento()
-        -void atualizarStatusPagamento(String status)
+    class PaymentMethod{
+        <<enum>>
+        CARD
+        CASH
+        PIX
     }
-    
-    class PIX{
-        -String chavePIX
+
+    class PaymentStatus{
+        <<enum>>
+        PAID
+        PENDING
+        DENIED
     }
-    
-    class cash{
+
+    class Card{
+        -
+    }
+
+    class Cash{
         -boolean isChangeNeeded
         -float change
     }
-    
-    class card{
+
+    class PIX{
+        -String chavePIX
     }
-    
-    User <|-- Admin
-    User <|-- Customer
-    User <|-- Funcionario
 
-    Customer *-- Adress
-
-    Order *-- OrderItem
-    Order *-- Payment
-
-    Stock *-- Product
-
-    OrderItem *-- Product
-
+    User <|-- Buyer
+    User <|-- Seller
+    Buyer "1" *-- "1" Adress
+    Buyer "1" *-- "1" Cart
+    Buyer "1" o-- "0..n" Order
+    Seller "1" *-- "1" Stock
+    Stock "1" o-- "0..n" Product
     Product <|-- Hamburger
     Product <|-- Drink
-
+    Order "1" *-- "1..n" OrderItem
+    OrderItem "1" *-- "1" Product
+    Order "1" *-- "1..n" OrderStatus    
+    Order "1" *-- "1" Payment
+    Payment <|-- Card
+    Payment <|-- Cash
     Payment <|-- PIX
-    Payment <|-- cash
-    Payment <|-- card
 ```
