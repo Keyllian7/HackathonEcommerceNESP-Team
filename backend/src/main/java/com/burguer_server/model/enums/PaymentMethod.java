@@ -1,12 +1,14 @@
-package com.burguer_server.model;
+package com.burguer_server.model.enums;
 
-public enum ProductCategory {
-    HAMBURGUER("hamburguer"),
-    DRINK("drink");
+public enum PaymentMethod {
+
+    CARD("card"),
+    CASH("cash"),
+    PIX("pix");
 
     private String type;
 
-    ProductCategory(String type) {
+    PaymentMethod(String type) {
         this.type = type;
     }
 

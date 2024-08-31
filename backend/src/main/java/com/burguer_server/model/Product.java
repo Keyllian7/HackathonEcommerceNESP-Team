@@ -1,9 +1,12 @@
 package com.burguer_server.model;
 
+import com.burguer_server.model.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -21,6 +24,9 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     @Column(nullable = false)
     private String productName;
 
@@ -29,4 +35,8 @@ public class Product implements Serializable {
 
     private String productImageLink;
     private String productDescription;
+
+    @ManyToOne
+    @JoinColumn(name = "stockId")
+    private Stock stock;
 }

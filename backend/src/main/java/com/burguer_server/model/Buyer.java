@@ -12,6 +12,7 @@ public class Buyer implements Serializable {
     private Long idBuyer;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "adress_id", referencedColumnName = "adressId")
     private Adress buyerAdress;
 
     private String buyerFoneNumber;
@@ -19,5 +20,5 @@ public class Buyer implements Serializable {
     @OneToMany(mappedBy = "buyer")
     private List<Order> buyerOrdersHistory = new ArrayList<>();
 
-    //private Cart buyerCart;
+    private Cart buyerCart;
 }

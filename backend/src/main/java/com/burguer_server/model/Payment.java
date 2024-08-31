@@ -1,5 +1,7 @@
 package com.burguer_server.model;
 
+import com.burguer_server.model.enums.PaymentMethod;
+import com.burguer_server.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +21,12 @@ public class Payment {
     private Order order;
     private float total;
     private boolean isPaid;
-    //private PaymentMethod paymentMethod;
-    //private PaymentStatus paymentStatus;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     private void processPayment(){
 
