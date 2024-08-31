@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "orderId")
@@ -23,10 +23,17 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idBuyer")
     private Buyer buyer;
+
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItens = new ArrayList<>();
+
     private float orderDeliveryTax;
     private float orderTotal;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id", referencedColumnName = "idPayment")
     private Payment orderPayment;
+
     private String currentOrderStatus;
 
     @OneToMany(mappedBy = "order")

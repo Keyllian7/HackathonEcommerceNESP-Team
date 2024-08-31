@@ -18,6 +18,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPayment;
 
+    @OneToOne
+    @JoinColumn(name = "order_id")
     private Order order;
     private float total;
     private boolean isPaid;
