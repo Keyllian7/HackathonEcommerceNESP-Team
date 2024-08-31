@@ -17,6 +17,8 @@ public class Adress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adressId;
+
+    @Column(length = 20)
     private String adressCep;
 
     @Column(nullable = false)

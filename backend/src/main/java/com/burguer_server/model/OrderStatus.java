@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orderItem")
+@Table(name = "orderStatus")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "orderStatusId")

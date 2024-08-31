@@ -25,6 +25,8 @@ public class OrderItem {
     private Product product;
 
     private int quantity;
+
+    @Column(columnDefinition = "text")
     private String notes;
 
     private Float calculateOrderItemTotal() {

@@ -5,7 +5,7 @@ public enum UserRole {
     USER("user"),
     BUYER("buyes"),
     SELLER("seller"),
-    BUYER_INACTIVE("buyes inactive"),
+    BUYER_INACTIVE("buyer inactive"),
     SELLER_INACTIVE("seller inactive");
 
     private String role;

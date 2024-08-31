@@ -34,6 +34,8 @@ public class Product implements Serializable {
     private float productPrice;
 
     private String productImageLink;
+
+    @Column(columnDefinition = "text")
     private String productDescription;
 
     @ManyToOne
