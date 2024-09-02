@@ -1,9 +1,7 @@
-package com.burguer_server.user;
+package com.burguer_server.model.enums;
 
 public enum UserRole {
-    ADMIN("admin"),
-    USER("user"),
-    BUYER("buyes"),
+    BUYER("buyer"),
     SELLER("seller"),
     BUYER_INACTIVE("buyer inactive"),
     SELLER_INACTIVE("seller inactive");

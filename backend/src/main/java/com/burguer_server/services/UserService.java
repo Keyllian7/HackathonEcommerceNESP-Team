@@ -1,6 +1,6 @@
 package com.burguer_server.services;
 
-import com.burguer_server.user.User;
+import com.burguer_server.model.User;
 import com.burguer_server.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
