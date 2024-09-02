@@ -1,6 +1,6 @@
 package com.burguer_server.repositories;
 
-import com.burguer_server.model.Stock;
+import com.burguer_server.model.product.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

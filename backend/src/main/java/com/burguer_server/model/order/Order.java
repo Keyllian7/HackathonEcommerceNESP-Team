@@ -1,5 +1,7 @@
-package com.burguer_server.model;
+package com.burguer_server.model.order;
 
+import com.burguer_server.model.user.Buyer;
+import com.burguer_server.model.payment.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 

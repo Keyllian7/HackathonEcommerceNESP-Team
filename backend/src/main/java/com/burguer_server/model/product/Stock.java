@@ -1,10 +1,9 @@
-package com.burguer_server.model;
+package com.burguer_server.model.product;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 

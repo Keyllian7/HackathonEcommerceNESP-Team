@@ -1,4 +1,4 @@
-package com.burguer_server.model;
+package com.burguer_server.model.user;
 
 import jakarta.persistence.*;
 import lombok.*;

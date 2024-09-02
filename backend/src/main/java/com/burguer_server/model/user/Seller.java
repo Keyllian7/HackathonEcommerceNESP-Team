@@ -1,7 +1,8 @@
-package com.burguer_server.model;
+package com.burguer_server.model.user;
 
+import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.enums.UserRole;
-import com.burguer_server.payloads.SellerPayloadRequest;
+import com.burguer_server.payloads.seller.SellerPayloadRequest;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,7 @@
-package com.burguer_server.model;
+package com.burguer_server.model.product;
 
 import com.burguer_server.model.enums.ProductCategory;
+import com.burguer_server.model.order.OrderItem;
 import jakarta.persistence.*;
 import lombok.*;
 

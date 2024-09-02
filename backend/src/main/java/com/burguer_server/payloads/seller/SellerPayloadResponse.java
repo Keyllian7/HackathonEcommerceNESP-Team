@@ -1,7 +1,7 @@
-package com.burguer_server.payloads;
+package com.burguer_server.payloads.seller;
 
-import com.burguer_server.model.Seller;
-import com.burguer_server.model.Stock;
+import com.burguer_server.model.user.Seller;
+import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.enums.UserRole;
 
 public record SellerPayloadResponse(Long id,
@@ -13,4 +13,6 @@ public record SellerPayloadResponse(Long id,
     public SellerPayloadResponse(Seller seller) {
         this(seller.getId(), seller.getEmail(), seller.getPassword(), seller.getRole(), seller.getSellerStock());
     }
+
+
 }

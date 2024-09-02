@@ -3,6 +3,7 @@ package com.burguer_server.infra.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,12 +26,10 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(req ->req.requestMatchers("/h2-console/**").permitAll())
+        return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(req ->req.requestMatchers("/h2-console/**").permitAll())
                 .authorizeHttpRequests(req -> req.anyRequest().permitAll())
-                .httpBasic(Customizer.withDefaults())
-                .headers(header-> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //Diz pra ele filtrar primeiro usando o meu filtro que vai gerar a autorização para o usuário
                 .build();
     }
