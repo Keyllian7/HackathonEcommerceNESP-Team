@@ -4,12 +4,10 @@ import com.burguer_server.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
-@Table(name = "seller")
+@Table(name = "sellers_tb")
 @Getter
 @Setter
-
 @AllArgsConstructor
 public class Seller extends User {
 

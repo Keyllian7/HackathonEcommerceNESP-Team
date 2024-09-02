@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")

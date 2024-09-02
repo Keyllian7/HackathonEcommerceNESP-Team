@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+
 @Entity
+@Table(name = "buyers_tb")
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "buyer")
 public class Buyer extends User {
 
+    @Column(nullable = false)
     private String buyerFoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -22,8 +24,6 @@ public class Buyer extends User {
     private List<Order> buyerOrdersHistory;
 
     //private Cart buyerCart;
-
-
 
     public Buyer(Long id, String email, String password, UserRole BUYER_ROLE, Adress buyerAdress, String buyerFoneNumber, List<Order> buyerOrdersHistory) {
         super(id, email, password, BUYER_ROLE);

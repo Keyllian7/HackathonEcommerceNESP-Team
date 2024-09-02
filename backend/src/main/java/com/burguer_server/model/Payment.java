@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "payment")
+@Table(name = "payments_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "idPayment")

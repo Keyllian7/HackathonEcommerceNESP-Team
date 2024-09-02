@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stocks_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "stockId")
@@ -21,8 +21,12 @@ public class Stock implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockId;
 
-    @OneToMany(mappedBy = "stock")
-    private Set<Product> stockProduct = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "stock_products_tb", joinColumns = @JoinColumn(name = "stock_id"))
+    @MapKeyJoinColumn(name = "product_id")
+    @Column(name = "quantity", nullable = false)
+    private Map<Product, Integer> stockProduct = new HashMap<>();
 
     public void updateStockProductQuantityAvailable(Product product, int quantity) {
     }

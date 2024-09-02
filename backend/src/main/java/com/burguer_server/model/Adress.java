@@ -6,7 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "adress")
+@Table(name = "adresses_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "adressId")
@@ -27,7 +27,12 @@ public class Adress implements Serializable {
     @Column(nullable = false)
     private String adressCity;
 
+    @Column(nullable = false)
     private int adressNumber;
+
+    @Column(nullable = false)
     private String adressComplement;
+
+    @Column(nullable = false)
     private String adressReference;
 }
