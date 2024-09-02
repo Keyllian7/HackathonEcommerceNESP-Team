@@ -4,7 +4,7 @@ export const ChooseMeal = () => {
     return (
         <section className="mb-6">
             <h2 className="text-lg font-semibold">Escolha a sua refeição!</h2>
-            <div className="flex space-x-4 mt-2">
+            <div className="flex space-x-4 mt-6">
                 <button className="bg-secondary text-white py-2 px-4 rounded-full flex items-center">
                     BURGER  <Image src="/images/Hambuguer-Emoji.png" alt="Mudar depois" width={25} height={25} />
                 </button>

@@ -3,7 +3,7 @@ import Image from "next/image"
 export const BestSellers = () => {
     return (
         <section>
-            <h2 className="text-lg font-semibold mb-2">Mais vendidos</h2>
+            <h2 className="text-lg font-semibold mb-6">Mais vendidos</h2>
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg shadow-lg">
                     <Image src="/images/moda-da-casa.png" alt="Moda da Casa" className="w-full h-24 object-contain mb-2 rounded-lg" width={200} height={200} />

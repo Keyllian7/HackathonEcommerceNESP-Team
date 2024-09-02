@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export const NavBar = () => {
   return (
-    <header className="flex justify-between items-center mb-4">
+    <header className="flex justify-between items-center mb-6">
       <div className="flex items-center gap-2">
         <Image src="/images/account-circle.png" alt="Perfil" width={32} height={32} />
         <h1 className="text-xl font-bold">Bem-vindo, Usuário!</h1>
