@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "orderItem")
+@Table(name = "order_items_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "orderItemId")
@@ -17,16 +17,17 @@ public class OrderItem {
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(nullable = false)
     private int quantity;
 
-    @Column(columnDefinition = "text")
+    @Column(nullable = false, columnDefinition = "text")
     private String notes;
 
     private Float calculateOrderItemTotal() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "productId")
@@ -31,11 +31,12 @@ public class Product implements Serializable {
     private String productName;
 
     @Column(nullable = false)
-    private float productPrice;
+    private double productPrice;
 
+    @Column(nullable = false)
     private String productImageLink;
 
-    @Column(columnDefinition = "text")
+    @Column(nullable = false, columnDefinition = "text")
     private String productDescription;
 
     @ManyToOne

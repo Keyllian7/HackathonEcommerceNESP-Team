@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orderStatus")
+@Table(name = "order_statuses_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "orderStatusId")
@@ -19,9 +19,12 @@ public class OrderStatus {
     private Long orderStatusId;
 
     @ManyToOne
-    @JoinColumn(name = "idOrder")
+    @JoinColumn(name = "order_id")
     private Order order;
 
+    @Column(nullable = false)
     private LocalDateTime orderStatusTimeStamp;
+
+    @Column(nullable = false)
     private String orderStatusDescription;
 }

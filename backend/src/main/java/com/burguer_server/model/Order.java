@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "orderId")
@@ -21,14 +21,17 @@ public class Order implements Serializable {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "idBuyer")
+    @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItens = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    private float orderDeliveryTax;
-    private float orderTotal;
+    @Column(nullable = false)
+    private double orderDeliveryTax;
+
+    @Column(nullable = false)
+    private double orderTotal;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id", referencedColumnName = "idPayment")
@@ -36,7 +39,7 @@ public class Order implements Serializable {
 
     private String currentOrderStatus;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderStatus> statusHistory;
 
     private float calculateOrderTotal(){

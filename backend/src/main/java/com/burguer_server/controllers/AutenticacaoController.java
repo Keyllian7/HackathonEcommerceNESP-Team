@@ -1,7 +1,7 @@
 package com.burguer_server.controllers;
 
 import com.burguer_server.infra.security.TokenService;
-import com.burguer_server.user.User;
+import com.burguer_server.model.User;
 import com.burguer_server.auth.DadosAdmin;
 import com.burguer_server.auth.DadosAutenticacao;
 import com.burguer_server.auth.DadosToken;

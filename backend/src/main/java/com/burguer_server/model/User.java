@@ -1,6 +1,7 @@
-package com.burguer_server.user;
+package com.burguer_server.model;
 
 import com.burguer_server.auth.DadosAutenticacao;
+import com.burguer_server.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,12 +12,13 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_tb")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
     @Id
@@ -29,23 +31,18 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     public User(DadosAutenticacao dto) {
         this.email = dto.email();
         this.password = dto.password();
-
-        //Valida role
-        if (dto.role() == null) {
-            this.role = UserRole.USER;
-        } else {
-            this.role = dto.role();
-        }
+        this.role = dto.role();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role == UserRole.ADMIN){
+        if (role == UserRole.SELLER){
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         } else {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
