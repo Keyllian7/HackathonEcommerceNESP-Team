@@ -6,6 +6,8 @@ import com.burguer_server.auth.DadosAdmin;
 import com.burguer_server.auth.DadosAutenticacao;
 import com.burguer_server.auth.DadosToken;
 import com.burguer_server.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +57,7 @@ public class AutenticacaoController {
 
     }
 
+    //@Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @GetMapping("/all")
     public ResponseEntity findAllUsers() {
         var list = service.findAll();
