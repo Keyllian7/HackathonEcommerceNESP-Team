@@ -1,7 +1,8 @@
-package com.burguer_server.model;
+package com.burguer_server.model.payment;
 
 import com.burguer_server.model.enums.PaymentMethod;
 import com.burguer_server.model.enums.PaymentStatus;
+import com.burguer_server.model.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.burguer_server.model;
+package com.burguer_server.model.user;
 
 import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.model.enums.UserRole;

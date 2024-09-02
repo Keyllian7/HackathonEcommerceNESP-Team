@@ -1,6 +1,6 @@
 package com.burguer_server.payloads.auth;
 
-import com.burguer_server.model.User;
+import com.burguer_server.model.user.User;
 import com.burguer_server.model.enums.UserRole;
 
 public record DadosAutenticacao(String email, String password, UserRole role) {
