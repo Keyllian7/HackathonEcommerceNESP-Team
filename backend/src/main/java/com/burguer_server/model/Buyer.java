@@ -1,35 +1,38 @@
 package com.burguer_server.model;
 
-import com.burguer_server.user.UserRole;
+import com.burguer_server.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "idBuyer")
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "buyer")
-public class Buyer implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBuyer;
+public class Buyer extends User {
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String buyerFoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "adress_id", referencedColumnName = "adressId")
     private Adress buyerAdress;
 
-    private String buyerFoneNumber;
-
     @OneToMany(mappedBy = "buyer")
-    private List<Order> buyerOrdersHistory = new ArrayList<>();
+    private List<Order> buyerOrdersHistory;
 
     //private Cart buyerCart;
+
+
+
+    public Buyer(Long id, String email, String password, UserRole BUYER_ROLE, Adress buyerAdress, String buyerFoneNumber, List<Order> buyerOrdersHistory) {
+        super(id, email, password, BUYER_ROLE);
+        this.buyerAdress = buyerAdress;
+        this.buyerFoneNumber = buyerFoneNumber;
+        this.buyerOrdersHistory = buyerOrdersHistory;
+    }
+
+    public Buyer(){
+        this.setRole(UserRole.BUYER);
+    }
 }
