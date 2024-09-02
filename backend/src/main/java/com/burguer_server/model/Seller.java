@@ -1,28 +1,21 @@
 package com.burguer_server.model;
 
-import com.burguer_server.user.UserRole;
+import com.burguer_server.model.enums.UserRole;
+import com.burguer_server.payloads.SellerPayloadRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 
 @Entity
 @Table(name = "seller")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "sellerId")
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class Seller implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+public class Seller extends User {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "stock_id", referencedColumnName = "stockId")
     private Stock sellerStock;
 
     public void manageStock() {
@@ -31,5 +24,32 @@ public class Seller implements Serializable {
 
     public void manageOrders() {
         // Implementação do método
+    }
+
+    public Seller(Long id, String email, String password, Stock sellerStock) {
+        super(id, email, password, UserRole.SELLER);
+        this.sellerStock = sellerStock;
+    }
+
+    public Seller(){
+        this.setRole(UserRole.SELLER);
+    }
+
+    public Seller(SellerPayloadRequest payload) {
+        this.setEmail(payload.email());
+        this.setPassword(payload.password());
+
+        if (payload.role() == null || payload.role() != UserRole.SELLER) {
+            this.setRole(UserRole.SELLER);
+        } else {
+            this.setRole(payload.role());
+        }
+
+        if (payload.sellerStock() == null) {
+            this.sellerStock = null;
+        } else {
+            this.sellerStock = payload.sellerStock();
+        }
+
     }
 }
