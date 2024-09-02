@@ -2,9 +2,9 @@ package com.burguer_server.controllers;
 
 import com.burguer_server.infra.security.TokenService;
 import com.burguer_server.model.User;
-import com.burguer_server.auth.DadosAdmin;
-import com.burguer_server.auth.DadosAutenticacao;
-import com.burguer_server.auth.DadosToken;
+import com.burguer_server.payloads.auth.DadosAdmin;
+import com.burguer_server.payloads.auth.DadosAutenticacao;
+import com.burguer_server.payloads.auth.DadosToken;
 import com.burguer_server.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,7 @@ public class AutenticacaoController {
 
     }
 
+    //@Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @GetMapping("/all")
     public ResponseEntity findAllUsers() {
         var list = service.findAll();

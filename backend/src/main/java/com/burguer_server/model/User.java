@@ -1,6 +1,6 @@
 package com.burguer_server.model;
 
-import com.burguer_server.auth.DadosAutenticacao;
+import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;

@@ -11,6 +11,8 @@ module.exports = {
         "primary": "#FAAC57",
         "secondary": "#963C08",
         "tertiary": "#D9D9D9",
+        "quaternary": "#5B1400",
+        "fifth": "#E85716"
       }
     },
   },
