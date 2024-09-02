@@ -9,7 +9,7 @@ import lombok.*;
 @Table(name = "seller")
 @Getter
 @Setter
-
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Seller extends User {
 
@@ -25,8 +25,8 @@ public class Seller extends User {
         // Implementação do método
     }
 
-    public Seller(Long id, String email, String password, UserRole sellerRole, Stock sellerStock) {
-        super(id, email, password, sellerRole);
+    public Seller(Long id, String email, String password, Stock sellerStock) {
+        super(id, email, password, UserRole.SELLER);
         this.sellerStock = sellerStock;
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Table(name = "buyer")
+@EqualsAndHashCode(callSuper = true)
 public class Buyer extends User {
 
     private String buyerFoneNumber;
@@ -23,10 +24,8 @@ public class Buyer extends User {
 
     //private Cart buyerCart;
 
-
-
-    public Buyer(Long id, String email, String password, UserRole BUYER_ROLE, Adress buyerAdress, String buyerFoneNumber, List<Order> buyerOrdersHistory) {
-        super(id, email, password, BUYER_ROLE);
+    public Buyer(Long id, String email, String password, Adress buyerAdress, String buyerFoneNumber, List<Order> buyerOrdersHistory) {
+        super(id, email, password, UserRole.BUYER);
         this.buyerAdress = buyerAdress;
         this.buyerFoneNumber = buyerFoneNumber;
         this.buyerOrdersHistory = buyerOrdersHistory;
