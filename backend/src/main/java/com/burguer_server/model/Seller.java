@@ -1,6 +1,7 @@
 package com.burguer_server.model;
 
 import com.burguer_server.model.enums.UserRole;
+import com.burguer_server.payloads.SellerPayloadRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +33,23 @@ public class Seller extends User {
 
     public Seller(){
         this.setRole(UserRole.SELLER);
+    }
+
+    public Seller(SellerPayloadRequest payload) {
+        this.setEmail(payload.email());
+        this.setPassword(payload.password());
+
+        if (payload.role() == null || payload.role() != UserRole.SELLER) {
+            this.setRole(UserRole.SELLER);
+        } else {
+            this.setRole(payload.role());
+        }
+
+        if (payload.sellerStock() == null) {
+            this.sellerStock = null;
+        } else {
+            this.sellerStock = payload.sellerStock();
+        }
+
     }
 }
