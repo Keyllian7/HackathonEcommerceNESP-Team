@@ -4,9 +4,9 @@ import com.burguer_server.infra.security.TokenService;
 import com.burguer_server.model.user.User;
 import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.payloads.auth.DadosToken;
-import com.burguer_server.payloads.seller.SellerPayloadRequest;
-import com.burguer_server.payloads.seller.SellerPayloadResponse;
-import com.burguer_server.services.SellerService;
+import com.burguer_server.payloads.buyer.BuyerPayloadRequest;
+import com.burguer_server.payloads.buyer.BuyerPayloadResponse;
+import com.burguer_server.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/seller")
-public class SellerController {
+@RequestMapping("/buyer")
+public class BuyerController {
 
     @Autowired
     private AuthenticationManager manager;
@@ -33,10 +33,10 @@ public class SellerController {
     private TokenService tokenService;
 
     @Autowired
-    private SellerService service;
+    private BuyerService service;
 
-    @Operation(summary = "Faz login do seller no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Objeto JSON contendo os dados do Seller",
+    @Operation(summary = "Faz login do Buyer no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Objeto JSON contendo os dados do Buyer",
             required = true,
             content = @Content(mediaType = "application/json")),
             responses = {
@@ -61,28 +61,28 @@ public class SellerController {
         }
     }
 
-    @Operation(summary = "Salva seller no sistema",  requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Objeto JSON contendo os dados do Seller",
+    @Operation(summary = "Salva Buyer no sistema",  requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Objeto JSON contendo os dados do Buyer",
             required = true,
             content = @Content(mediaType = "application/json")),
             responses = {
-            @ApiResponse(description = "Seller salvo com sucesso", responseCode = "201",
+            @ApiResponse(description = "Buyer salvo com sucesso", responseCode = "201",
                     content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PostMapping
-    public ResponseEntity save(@RequestBody @Valid SellerPayloadRequest payloadRequest, UriComponentsBuilder builder) {
-        var seller = service.save(payloadRequest);
+    public ResponseEntity save(@RequestBody @Valid BuyerPayloadRequest payloadRequest, UriComponentsBuilder builder) {
+        var Buyer = service.save(payloadRequest);
 
-        var uri = builder.path("/seller/{id}").buildAndExpand(seller.getId()).toUri();
+        var uri = builder.path("/Buyer/{id}").buildAndExpand(Buyer.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new SellerPayloadResponse(seller));
+        return ResponseEntity.created(uri).body(new BuyerPayloadResponse(Buyer));
     }
 
-    @Operation(summary = "Retorna uma lista de sellers",
+    @Operation(summary = "Retorna uma lista de Buyers",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
@@ -93,14 +93,14 @@ public class SellerController {
     public ResponseEntity findAll() {
         var list = service.findAll();
 
-        return ResponseEntity.ok(list.stream().map(SellerPayloadResponse::new));
+        return ResponseEntity.ok(list.stream().map(BuyerPayloadResponse::new));
     }
 
-    @Operation(summary = "Retorna seller pelo id",
+    @Operation(summary = "Retorna Buyer pelo id",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
                             content = @Content(mediaType = "application/json")),
-                    @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
+                    @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
                     @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
@@ -108,9 +108,9 @@ public class SellerController {
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable (name = "id") Long id) {
         try {
-            var seller = service.findById(id);
+            var Buyer = service.findById(id);
 
-            return ResponseEntity.ok(new SellerPayloadResponse(seller));
+            return ResponseEntity.ok(new BuyerPayloadResponse(Buyer));
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -121,24 +121,24 @@ public class SellerController {
 
 
     @Operation(security = { @SecurityRequirement(name = "bearer-key") },
-            summary = "Atualiza Seller",
+            summary = "Atualiza Buyer",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Objeto JSON contendo os dados do Seller",
+                    description = "Objeto JSON contendo os dados do Buyer",
                     required = true,
                     content = @Content(mediaType = "application/json")),
             responses = {
             @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
                     content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PutMapping("/{id}")
-    public ResponseEntity update (@PathVariable Long id, @RequestBody @Valid SellerPayloadRequest payload) {
+    public ResponseEntity update (@PathVariable Long id, @RequestBody @Valid BuyerPayloadRequest payload) {
         try {
-            var seller = service.update(id, payload);
-            return ResponseEntity.ok(new SellerPayloadResponse(seller));
+            var Buyer = service.update(id, payload);
+            return ResponseEntity.ok(new BuyerPayloadResponse(Buyer));
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -149,9 +149,9 @@ public class SellerController {
     }
 
     @Operation(security = { @SecurityRequirement(name = "bearer-key") },
-            summary = "Deleta sellers pelo id",  responses = {
-            @ApiResponse(description = "Seller Deletado com sucesso", responseCode = "204"),
-            @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
+            summary = "Deleta Buyers pelo id",  responses = {
+            @ApiResponse(description = "Buyer Deletado com sucesso", responseCode = "204"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
