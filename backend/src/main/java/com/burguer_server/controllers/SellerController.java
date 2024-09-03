@@ -8,6 +8,7 @@ import com.burguer_server.payloads.seller.SellerPayloadRequest;
 import com.burguer_server.payloads.seller.SellerPayloadResponse;
 import com.burguer_server.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,7 +35,10 @@ public class SellerController {
     @Autowired
     private SellerService service;
 
-    @Operation(summary = "Faz login do seller no sistema",
+    @Operation(summary = "Faz login do seller no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Objeto JSON contendo os dados do Seller",
+            required = true,
+            content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
@@ -57,8 +61,13 @@ public class SellerController {
         }
     }
 
-    @Operation(summary = "Salva seller no sistema",  responses = {
-            @ApiResponse(description = "Seller salvo com sucesso no sistema", responseCode = "201"),
+    @Operation(summary = "Salva seller no sistema",  requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Objeto JSON contendo os dados do Seller",
+            required = true,
+            content = @Content(mediaType = "application/json")),
+            responses = {
+            @ApiResponse(description = "Seller salvo com sucesso", responseCode = "201",
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
@@ -89,7 +98,8 @@ public class SellerController {
 
     @Operation(summary = "Retorna seller pelo id",
             responses = {
-                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
                     @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
                     @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
@@ -110,8 +120,15 @@ public class SellerController {
     }
 
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, summary = "Procura projetos pelo id, que está vinculado com o id do usuário",  responses = {
-            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            summary = "Procura projetos pelo id, que está vinculado com o id do usuário",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Objeto JSON contendo os dados do Seller",
+                    required = true,
+                    content = @Content(mediaType = "application/json")),
+            responses = {
+            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
@@ -131,8 +148,9 @@ public class SellerController {
 
     }
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, summary = "Procura projetos pelo id, que está vinculado com o id do usuário",  responses = {
-            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            summary = "Deleta sellers pelo id",  responses = {
+            @ApiResponse(description = "Seller Deletado com sucesso", responseCode = "204"),
             @ApiResponse(responseCode = "404", description = "Não foi encontrado o seller"),
             @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
             @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
