@@ -1,5 +1,7 @@
 package com.burguer_server.services;
 
+import com.burguer_server.model.product.Product;
+import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.user.Seller;
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
 import com.burguer_server.repositories.SellerRepository;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -24,9 +27,13 @@ public class SellerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private StockService stockService;
+
     public Seller save(SellerPayloadRequest payload) {
         var sellerConvertido = new Seller(payload);
         sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); //Transforma a senha que digitar em BCrypt
+        stockService.save(payload.sellerStock());
 
         return repository.save(sellerConvertido);
     }
@@ -38,6 +45,14 @@ public class SellerService {
 
     public List<Seller> findAll() {
         var list = repository.findAll();
+        return list;
+    }
+
+    //Mostra a lista de produtos que existem no stock do seller
+    public Set<Product> findStockProducts(Long idSeller) {
+        var seller = findById(idSeller);
+        var idStock = findById(idSeller).getSellerStock().getStockId();
+        var list = stockService.stockProducts(idStock);
         return list;
     }
 

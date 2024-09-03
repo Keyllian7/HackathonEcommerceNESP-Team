@@ -1,52 +1,67 @@
 package com.burguer_server.services;
 
-import com.burguer_server.model.user.Adress;
-import com.burguer_server.repositories.AdressRepository;
+import com.burguer_server.model.product.Product;
+import com.burguer_server.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ProductService {
     
     @Autowired
-    private AdressRepository repository;
+    private ProductRepository repository;
 
-    public Adress save(Adress adress) {
+    public Product save(Product Product) {
 
-        return repository.save(adress);
+        return repository.save(Product);
     }
 
-    public Adress findById(Long id) {
-        var adress = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Adress não encontrado"));
-        return adress;
+    public Set<Product> saveAll(Set<Product> products) {
+        repository.saveAll(products);
+        return products;
     }
 
-    public List<Adress> findAll() {
+    //Pelo id do stock mostra os produtos que estão nele
+    public Set<Product> findByStock(Long idStock) {
+        var list = findAll().stream().filter(p -> p.getStock().getStockId() == idStock).collect(Collectors.toSet());
+        return list;
+    }
+
+
+    public Product findById(Long id) {
+        var Product = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product não encontrado"));
+        return Product;
+    }
+
+    public List<Product> findAll() {
         var list = repository.findAll();
         return list;
     }
 
     public void deleteById(Long id) {
-        var adress = findById(id);
+        var Product = findById(id);
 
         repository.deleteById(id);
     }
 
-    public Adress update(Long id, Adress payload) {
-        var adress = findById(id);
+    public Product update(Long id, Product payload) {
+        var product = findById(id);
 
-        adress.setAdressCep(payload.getAdressCep());
-        adress.setAdressCity(payload.getAdressCity());
-        adress.setAdressNumber(payload.getAdressNumber());
-        adress.setAdressComplement(payload.getAdressComplement());
-        adress.setAdressReference(payload.getAdressReference());
+        product.setProductCategory(payload.getProductCategory());
+        product.setOrderItems(payload.getOrderItems());
+        product.setProductName(payload.getProductName());
+        product.setProductPrice(payload.getProductPrice());
+        product.setProductImageLink(payload.getProductImageLink());
+        product.setStock(payload.getStock());
 
-        return repository.save(adress);
+        return repository.save(product);
     }
 
 }
