@@ -10,7 +10,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <main>
-      <h1>Está autenticado</h1>
       {children}
     </main>
   );
