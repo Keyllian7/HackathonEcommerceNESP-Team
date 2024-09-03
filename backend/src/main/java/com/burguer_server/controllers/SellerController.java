@@ -4,8 +4,10 @@ import com.burguer_server.infra.security.TokenService;
 import com.burguer_server.model.user.User;
 import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.payloads.auth.DadosToken;
+import com.burguer_server.payloads.products.ProductsPayloadResponse;
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
 import com.burguer_server.payloads.seller.SellerPayloadResponse;
+import com.burguer_server.payloads.stock.StockPayloadResponse;
 import com.burguer_server.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -94,6 +96,20 @@ public class SellerController {
         var list = service.findAll();
 
         return ResponseEntity.ok(list.stream().map(SellerPayloadResponse::new));
+    }
+
+    @Operation(summary = "Retorna o stock do seller pelo id",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+                    @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/stock/{idSeller}")
+    public ResponseEntity findStockProducts(@PathVariable(name = "idSeller") Long id) {
+        var stockProducts = service.findStockProducts(id);
+
+        return ResponseEntity.ok(stockProducts.stream().map(ProductsPayloadResponse::new));
     }
 
     @Operation(summary = "Retorna seller pelo id",

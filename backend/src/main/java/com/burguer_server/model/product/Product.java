@@ -2,6 +2,7 @@ package com.burguer_server.model.product;
 
 import com.burguer_server.model.enums.ProductCategory;
 import com.burguer_server.model.order.OrderItem;
+import com.burguer_server.payloads.products.ProductsPayloadResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,4 +44,14 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "stockId")
     private Stock stock;
+
+    public Product(ProductsPayloadResponse payload) {
+        this.productCategory = payload.productCategory();
+        this.orderItems = payload.orderItems();
+        this.productName = payload.productName();
+        this.productPrice = payload.productPrice();
+        this.productImageLink = payload.productImageLink();
+        this.productDescription = payload.productDescription();
+        this.stock = payload.stock();
+    }
 }

@@ -1,11 +1,15 @@
 package com.burguer_server.model.product;
 
+import com.burguer_server.payloads.seller.SellerPayloadRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "stocks_tb")
@@ -21,11 +25,16 @@ public class Stock implements Serializable {
     private Long stockId;
 
 
-    @ElementCollection
+    /*@ElementCollection
     @CollectionTable(name = "stock_products_tb", joinColumns = @JoinColumn(name = "stock_id"))
     @MapKeyJoinColumn(name = "product_id")
     @Column(name = "quantity", nullable = false)
-    private Map<Product, Integer> stockProduct = new HashMap<>();
+    private Map<Product, Integer> stockProduct = new HashMap<>();*/
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "stock", fetch = FetchType.EAGER)
+    private Set<Product> stockProduct = new HashSet<>();
+
 
     public void updateStockProductQuantityAvailable(Product product, int quantity) {
     }
@@ -33,4 +42,5 @@ public class Stock implements Serializable {
     public boolean isAvailable(Product product) {
         return false;
     }
+
 }
