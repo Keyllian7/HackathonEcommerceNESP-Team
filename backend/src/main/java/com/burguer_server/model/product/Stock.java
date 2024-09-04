@@ -32,7 +32,7 @@ public class Stock implements Serializable {
     private Map<Product, Integer> stockProduct = new HashMap<>();*/
 
     @JsonIgnore
-    @OneToMany(mappedBy = "stock", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "stock",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> stockProduct = new HashSet<>();
 
 

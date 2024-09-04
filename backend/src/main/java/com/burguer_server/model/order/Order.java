@@ -2,6 +2,7 @@ package com.burguer_server.model.order;
 
 import com.burguer_server.model.user.Buyer;
 import com.burguer_server.model.payment.Payment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -41,7 +43,8 @@ public class Order implements Serializable {
 
     private String currentOrderStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderStatus> statusHistory;
 
     private float calculateOrderTotal(){

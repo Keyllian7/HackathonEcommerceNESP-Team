@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,9 +25,9 @@ public class ProductService {
     }
 
     public Set<Product> saveAll(Set<Product> products) {
-        repository.saveAll(products);
-        return products;
+        return new HashSet<>(repository.saveAll(products)); // Retorna os produtos salvos
     }
+
 
     //Pelo id do stock mostra os produtos que estão nele
     public Set<Product> findByStock(Long idStock) {

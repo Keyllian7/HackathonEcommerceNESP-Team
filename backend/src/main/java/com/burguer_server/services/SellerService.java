@@ -30,13 +30,25 @@ public class SellerService {
     @Autowired
     private StockService stockService;
 
+    @Autowired
+    private ProductService productService;
+
     public Seller save(SellerPayloadRequest payload) {
         var sellerConvertido = new Seller(payload);
-        sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); //Transforma a senha que digitar em BCrypt
-        stockService.save(payload.sellerStock());
+        sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); // Transforma a senha em BCrypt
 
+        // Primeiro, salvar os produtos
+        Set<Product> savedProducts = productService.saveAll(payload.sellerStock().getStockProduct());
+        sellerConvertido.getSellerStock().setStockProduct(savedProducts);
+
+        // Salvar o stock com os produtos
+        Stock savedStock = stockService.save(sellerConvertido.getSellerStock());
+        sellerConvertido.setSellerStock(savedStock);
+
+        // Finalmente, salvar o seller com o stock
         return repository.save(sellerConvertido);
     }
+
 
     public Seller findById(Long id) {
         var seller = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Seller não encontrado"));
