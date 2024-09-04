@@ -15,7 +15,7 @@ export const BurguerList = () => {
         <h2 className="mt-5 text-lg font-semibold">Moda da Casa</h2>
         <div className="w-full flex justify-end items-end">
           <p className="items-start w-full">R$ 34,90</p>
-          <Image className="flex object-contain w-8 " src="/images/heart.png" alt="Favoritar" width={200} height={200} />
+          <Image className="flex object-contain w-8 " src="/images/heart.png" alt="Favoritar" width={200} height={200}/>
         </div>
       </div>
 
