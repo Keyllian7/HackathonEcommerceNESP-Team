@@ -30,10 +30,15 @@ public class SellerService {
     @Autowired
     private StockService stockService;
 
+    @Autowired
+    private ProductService productService;
+
     public Seller save(SellerPayloadRequest payload) {
         var sellerConvertido = new Seller(payload);
         sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); //Transforma a senha que digitar em BCrypt
-        stockService.save(payload.sellerStock());
+        sellerConvertido.getSellerStock().setStockProduct(productService.saveAll(payload.sellerStock().getStockProduct()));
+
+        sellerConvertido.setSellerStock(stockService.save(payload.sellerStock()));
 
         return repository.save(sellerConvertido);
     }

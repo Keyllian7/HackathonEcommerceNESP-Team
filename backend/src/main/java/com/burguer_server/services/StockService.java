@@ -22,10 +22,6 @@ public class StockService {
     private StockRepository repository;
 
     public Stock save(Stock stock){
-        var productsSaved = productService.saveAll(stock.getStockProduct());
-
-        productService.saveAll(productsSaved);
-
         return repository.save(stock);
     }
 

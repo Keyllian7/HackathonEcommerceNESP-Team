@@ -33,7 +33,7 @@ public class Product implements Serializable {
     private String productName;
 
     @Column(nullable = false)
-    private double productPrice;
+    private float productPrice;
 
     @Column(nullable = false)
     private String productImageLink;
