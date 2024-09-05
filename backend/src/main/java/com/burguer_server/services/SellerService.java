@@ -4,6 +4,7 @@ import com.burguer_server.model.product.Product;
 import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.user.Seller;
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
+import com.burguer_server.payloads.stock.StockPayloadRequest;
 import com.burguer_server.repositories.SellerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -37,13 +38,13 @@ public class SellerService {
         var sellerConvertido = new Seller(payload);
         sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); // Transforma a senha em BCrypt
 
-        // Primeiro, salvar os produtos
-        Set<Product> savedProducts = productService.saveAll(payload.sellerStock().getStockProduct());
-        sellerConvertido.getSellerStock().setStockProduct(savedProducts);
-
-        // Salvar o stock com os produtos
-        Stock savedStock = stockService.save(sellerConvertido.getSellerStock());
-        sellerConvertido.setSellerStock(savedStock);
+//        // Primeiro, salvar os produtos
+//        Set<Product> savedProducts = productService.saveAll(payload.sellerStock().getStockProduct());
+//        sellerConvertido.getSellerStock().setStockProduct(savedProducts);
+//
+//        // Salvar o stock com os produtos
+//        Stock savedStock = stockService.save(sellerConvertido.getSellerStock());
+//        sellerConvertido.setSellerStock(savedStock);
 
         // Finalmente, salvar o seller com o stock
         return repository.save(sellerConvertido);
@@ -58,6 +59,28 @@ public class SellerService {
     public List<Seller> findAll() {
         var list = repository.findAll();
         return list;
+    }
+
+    public Stock saveStockInSeller(Long idSeller, StockPayloadRequest stock) {
+        var seller = findById(idSeller);
+        var stockConvertido = new Stock(stock);
+        productService.saveAll(stockConvertido.getStockProduct());
+        stockService.save(stockConvertido);
+
+        stockConvertido.getStockProduct().stream().forEach(p -> p.setStock(stockConvertido));
+        productService.saveAll(stockConvertido.getStockProduct());
+
+        seller.setSellerStock(stockConvertido);
+        repository.save(seller);
+
+        return stockService.save(stockConvertido);
+    }
+
+    public Stock findStockBySeller(Long idSeller) {
+        var seller = findById(idSeller);
+        var stockId = seller.getSellerStock().getStockId();
+
+        return stockService.findById(stockId);
     }
 
     //Mostra a lista de produtos que existem no stock do seller
