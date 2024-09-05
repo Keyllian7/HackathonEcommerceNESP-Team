@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { removerDosFavoritos } from "../../utils/removerFavorites";
 
 export const FavoritesList = () => {
     const [favoritos, setFavoritos] = useState([]);
@@ -13,16 +14,10 @@ export const FavoritesList = () => {
         setFavoritos(favoritosSalvos);
     }, []);
 
-    const removerDosFavoritos = (id) => {
-        const novosFavoritos = favoritos.filter((Item) => Item.id !== id);
-        setFavoritos(novosFavoritos);
-        localStorage.setItem('favoritos', JSON.stringify(novosFavoritos));
-        toast.error('Item removido dos favoritos!');
-    };
-
     return (
-        <div className="w-full grid  items-center gap-x-4 gap-y-4 bg-quaternary p-6 text-white">
+        <div className="w-full grid items-center gap-x-4 gap-y-4 bg-quaternary p-6 text-white">
             <ToastContainer/>
+            <h1 className="font-medium flex justify-center">LISTA DE FAVORITOS</h1>
             {favoritos.length === 0 ? (
                 <p className="flex justify-center font-mono">Você ainda não tem favoritos!</p>
             ) : (
@@ -34,10 +29,10 @@ export const FavoritesList = () => {
                         <Image
                             src="/images/Trash.png"
                             alt="Remover dos Favoritos"
-                            width={24}
-                            height={24}
+                            width={35}
+                            height={35}
                             className="cursor-pointer mt-2"
-                            onClick={() => removerDosFavoritos(Item.id)}
+                            onClick={() => removerDosFavoritos(Item.id, favoritos, setFavoritos)}
                         />
                     </div>
                 ))
