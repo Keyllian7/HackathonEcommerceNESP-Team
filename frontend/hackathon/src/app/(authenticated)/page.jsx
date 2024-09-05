@@ -1,29 +1,12 @@
-import { BestSellingProducts } from "@/features/products/BestSellingProducts";
-import { ProductTypeSelector } from "@/features/products/ProductTypeSelector";
+export const metadata = {
+  title: "Hamburgueria burguer service",
+  description: "Os melhores hamburgueres deliciosos encontrados aqui",
+};
 
-const getProduct = async () => {
-  return {
-    id: 1,
-    title: "batata",
-    price: 1.99,
-    description: "um limao",
-  }
-}
-
-export const generateMetadata = async () => {
-  const product = await getProduct()
-
-  return {
-    title: product.title,
-    description: product.description,
-  };
-}
-
-export default function Home({searchParams}) {
+export default function Home() {
   return (
     <main>
-      <BestSellingProducts filter={searchParams.filter}/>
-      <ProductTypeSelector />
+      
     </main>
   );
 }
