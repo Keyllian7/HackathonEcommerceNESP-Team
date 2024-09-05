@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { CardProduct } from "./components/CardProduct";
 import { PriceSummary } from "./components/PriceSummary";
+import { BackBar } from "../burguerlist/components/BackBar";
+import { OptionsBarHome } from "../burguerlist/components/OptionsBarHome";
 
-// TODO: Implementar dinamicamente
 const products = [
     {
         id: 1,
@@ -12,7 +13,7 @@ const products = [
         price: 1.99,
         description: "um limao",
         extra: "cebola, alface e tomate",
-        image: "/images/moda-da-casa.png"
+        image: "/images/CompletoV2.png"
     },
     {
         id: 2,
@@ -41,11 +42,10 @@ export default function Cart() {
         setNewTotal((prevTotal) => prevTotal + updateTotal)
     }
 
-
-    // TODO: Implementar  versão desktop
     return (
+        <>
         <main className="flex flex-col gap-4 px-4 pb-2">
-            <a href="/">Voltar (temporario)</a>
+            <BackBar/>
             <h1 className="text-xl font-bold">Carrinho</h1>
 
             {products.map(product => (
@@ -56,5 +56,7 @@ export default function Cart() {
 
             <button className="bg-red-500 rounded-xl w-full h-10 text-white font-bold">Finalizar pedido</button>
         </main>
+        <OptionsBarHome/>
+        </>
     )
 }

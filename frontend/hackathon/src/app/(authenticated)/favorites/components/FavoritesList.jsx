@@ -17,7 +17,6 @@ export const FavoritesList = () => {
     return (
         <div className="w-full grid items-center gap-x-4 gap-y-4 bg-quaternary p-6 text-white">
             <ToastContainer/>
-            <h1 className="font-medium flex justify-center">LISTA DE FAVORITOS</h1>
             {favoritos.length === 0 ? (
                 <p className="flex justify-center font-mono">Você ainda não tem favoritos!</p>
             ) : (
