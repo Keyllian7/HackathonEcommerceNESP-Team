@@ -1,6 +1,8 @@
 package com.burguer_server.services;
 
+import com.burguer_server.model.order.OrderItem;
 import com.burguer_server.model.product.Product;
+import com.burguer_server.payloads.products.ProductsPayloadRequest;
 import com.burguer_server.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -15,13 +17,27 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ProductService {
+
+    @Autowired
+    private OrderItemService orderItemService;
     
     @Autowired
     private ProductRepository repository;
 
-    public Product save(Product Product) {
+    public Product save(ProductsPayloadRequest payloadRequest) {
 
-        return repository.save(Product);
+        var orderItems = payloadRequest.orderItems();
+        orderItemService.saveAll(orderItems);
+
+        var productConvertido = new Product(payloadRequest);
+        repository.save(productConvertido);
+
+        orderItems.stream().forEach(p -> p.setProduct(productConvertido));
+        orderItemService.saveAll(orderItems);
+
+        productConvertido.setOrderItems(orderItems);
+
+        return repository.save(productConvertido);
     }
 
     public Set<Product> saveAll(Set<Product> products) {
@@ -41,13 +57,14 @@ public class ProductService {
         return Product;
     }
 
-    public List<Product> findAll() {
+    public Set<Product> findAll() {
         var list = repository.findAll();
-        return list;
+        var setList = list.stream().collect(Collectors.toSet());
+        return setList;
     }
 
     public void deleteById(Long id) {
-        var Product = findById(id);
+        var product = findById(id);
 
         repository.deleteById(id);
     }
