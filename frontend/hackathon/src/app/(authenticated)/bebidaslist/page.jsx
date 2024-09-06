@@ -1,4 +1,4 @@
-import { BackBar } from "./components/BackBar";
+import { BackBar } from "../burguerlist/components/BackBar";
 import { OptionsBarHome } from "./components/OptionsBarHome";
 import { SearchBar } from "./components/SearchBar";
 import { BebidasList } from "./components/BebidasList";

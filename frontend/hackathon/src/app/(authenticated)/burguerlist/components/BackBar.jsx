@@ -11,12 +11,14 @@ export const BackBar = () => {
   return (
     <header className="flex justify-between items-center mb-2 p-2">
       <div className="flex items-center gap-2">
-        <Image
-          src="/images/account-circle.png"
-          alt="Perfil"
-          width={42}
-          height={42}
-        />
+        <Link href="/perfil">
+          <Image
+            src="/images/account-circle.png"
+            alt="Perfil"
+            width={42}
+            height={42}
+          />
+        </Link>
         <button onClick={handleBackClick}>
           <Image
             src="/images/Arrow left-circle.png"
