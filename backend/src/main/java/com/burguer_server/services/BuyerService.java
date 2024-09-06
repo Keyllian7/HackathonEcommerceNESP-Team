@@ -2,6 +2,7 @@ package com.burguer_server.services;
 
 import com.burguer_server.model.user.Buyer;
 import com.burguer_server.payloads.buyer.BuyerPayloadRequest;
+
 import com.burguer_server.repositories.BuyerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -10,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -73,6 +73,4 @@ public class BuyerService {
         adressService.update(buyer.getBuyerAdress().getAdressId(), payload.buyerAdress());
         return repository.save(buyer);
     }
-
-
 }
