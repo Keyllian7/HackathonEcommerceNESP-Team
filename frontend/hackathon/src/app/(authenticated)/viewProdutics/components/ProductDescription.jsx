@@ -1,22 +1,31 @@
-import Image from "next/image";
-export const ProductDescription = () => {
-    return(
-        <section className="mt-6  flex items-center flex-col " >
-        <div className=" mt-[50px] w-[400px] bg-white rounded-3xl "> 
-           <div className=" mt-6 text-center text-[35px]"> <strong>Moda da Casa</strong></div>
-           <p className="text-center text-[20px] mb-6">Carne bovina grelhada, queijo cheddar,
-               bacon crocante, alface, tomate e mollho,
-                especial no pão artesanal.</p>
-             <div className="flex items-center flex-col"><Image src="/images/Moda da casa.png"  width={350} height={100} /> </div>
-             <div className="flex justify-center">
-             <div className="mr-[60px] text-[25px]"><strong>Valor R$ 34,90</strong></div>
-             <div className="pb-6"><Image src="/images/add_circle.png" width={35} height={50}  /></div>
-             <div className="text-[25px]"><p><strong>0</strong></p></div>
-             <div className="pb-6"> <Image src="/images/Minus circle.png "  width={34} height={50}/></div>
-             </div>
-            
-        </div>
-    </section>
-    );
-}
+import React from "react";
 
+export const ProductDescription = ({ item }) => {
+  if (!item) {
+    return <div>Item não encontrado</div>;
+  }
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-primary">
+      {" "}
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        {" "}
+        <h1 className="text-3xl font-bold mb-6 text-center">{item.nome}</h1>
+        <p className="text-gray-600 text-center">{item.descrição}</p>
+        <div className="flex justify-center mb-6">
+          <img
+            src={item.imagem}
+            alt={item.nome}
+            className="w-full h-24 object-contain mb-2 rounded-lg"
+          />{" "}
+        </div>
+        <p className="text-xl font-semibold text-gray-800 text-center mb-4">
+          Preço: {item.preço}
+        </p>
+        <button className="bg-primary text-white font-semibold py-2 px-4 rounded-md w-full border border-transparent hover:bg-secondary transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
+          Adicionar ao Carrinho
+        </button>
+      </div>
+    </div>
+  );
+};
