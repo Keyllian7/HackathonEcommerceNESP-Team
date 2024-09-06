@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export const SearchBar = () => {
   return (
@@ -7,8 +8,8 @@ export const SearchBar = () => {
       <header className="flex justify-center mb-6">
         <h1 className="text-white text-2xl font-bold">Cardápio Burguer's</h1>
       </header>
-
-      <div className="flex items-center mb-6">
+      
+      <div className="flex items-center mb-6 mt-6">
         <input 
           type="text" 
           placeholder="Procure seu Burguer" 

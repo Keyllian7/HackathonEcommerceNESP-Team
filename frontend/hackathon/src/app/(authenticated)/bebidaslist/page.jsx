@@ -1,6 +1,7 @@
-import { BackBar } from "../burguerlist/components/BackBar";
-import { OptionsBarHome } from "../burguerlist/components/OptionsBarHome";
-import { FavoritesList } from "./components/FavoritesList";
+import { BackBar } from "./components/BackBar";
+import { OptionsBarHome } from "./components/OptionsBarHome";
+import { SearchBar } from "./components/SearchBar";
+import { BebidasList } from "./components/BebidasList";
 
 export const generateMetadata = async () => {
     return {
@@ -8,14 +9,14 @@ export const generateMetadata = async () => {
       description: "Só os melhores hamburgueres encontrados aqui",
     };
 }
-
-  export default function ListProductsFavorites() {
+  
+  export default function ListProducts() {
     return (
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow"> 
           <BackBar />
-          <h1 className="text-xl font-bold flex justify-center p-2">Seus Favoritos</h1>
-          <FavoritesList/>
+          <SearchBar/>
+          <BebidasList/>
         </main>
           <OptionsBarHome/>
       </div>

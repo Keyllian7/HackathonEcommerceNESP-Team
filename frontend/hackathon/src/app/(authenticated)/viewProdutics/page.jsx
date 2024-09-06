@@ -1,6 +1,6 @@
 import React from "react";
-import { BackBar } from "../products/components/BackBar";
-import { OptionsBarHome } from "../products/components/OptionsBarHome";
+import { BackBar } from "../burguerlist/components/BackBar";
+import { OptionsBarHome } from "../burguerlist/components/OptionsBarHome";
 import { ProductDescription } from "./components/ProductDescription";
 
 export default function VisualizarProduto(){

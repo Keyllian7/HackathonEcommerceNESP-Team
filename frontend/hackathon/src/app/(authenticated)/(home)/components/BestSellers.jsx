@@ -17,12 +17,18 @@ export const BestSellers = ({categoriaSelecionada}) => {
 
     const melhoresItens = selecionarItems.slice(0, 2)
 
+    const caminhoMap = {
+        burguer: "/burguerlist",
+        bebidas: "/bebidaslist"
+    };
+    const caminho = caminhoMap[categoriaSelecionada] || "/";
+
     return (
         <section>
             <ToastContainer/>
             <div className="flex justify-between font-semibold mb-2 p-2">
                 <h2>Mais Vendidos</h2>
-                <a href="/products" className="text-sm font-light text-black hover:underline">Ver Todos</a>
+                <a href={caminho} className="text-sm font-light text-black hover:underline">Ver Todos</a>
             </div>
             <div className="grid grid-cols-2 gap-4">
                 {melhoresItens.map((Item) => (

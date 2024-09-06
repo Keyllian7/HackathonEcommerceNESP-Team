@@ -12,7 +12,9 @@ export const OptionsBarHome = () => {
                     <Link href="/">
                         <Image src="/images/HomeButton.png" alt="Home Button" width={50} height={100} className="h-full object-cover"/>
                     </Link>
-                    <Image src="/images/Sacola.png" alt="Cart" width={50} height={100} className="h-full object-cover"/>
+                    <Link href="/cart">
+                        <Image src="/images/Sacola.png" alt="Cart" width={50} height={100} className="h-full object-cover"/>
+                    </Link>
 
                 </div>
             </div>
