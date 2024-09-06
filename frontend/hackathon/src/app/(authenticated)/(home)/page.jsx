@@ -8,20 +8,20 @@ import { OptionsBar } from "./components/OptionsBar";
 import { useState } from "react";
 
 export default function LandingPage() {
-
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("burguer");
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-grow"> 
+      <main className="flex-grow">
         <NavBar />
-        <ChooseMeal 
-          setCategoriaSelecionada={setCategoriaSelecionada} 
-          categoriaSelecionada={categoriaSelecionada} />
+        <ChooseMeal
+          setCategoriaSelecionada={setCategoriaSelecionada}
+          categoriaSelecionada={categoriaSelecionada}
+        />
         <BestSellers categoriaSelecionada={categoriaSelecionada} />
         <Promotion />
       </main>
-        <OptionsBar/>
+      <OptionsBar />
     </div>
   );
 }
