@@ -17,6 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(of = "orderId")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Order implements Serializable {
 
     @Id
