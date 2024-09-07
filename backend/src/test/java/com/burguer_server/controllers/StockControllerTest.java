@@ -32,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -114,7 +113,7 @@ class StockControllerTest {
         when(sellerService.findById(1l)).thenReturn(seller);
         when(productService.saveAll(products)).thenReturn(products);
         when(stockService.save(stock)).thenReturn(stock);
-        when(sellerService.saveStockInSeller(1l, stockPayload)).thenReturn(stock);
+        when(sellerService.saveProductInStockOfSeller(1l, stockPayload)).thenReturn(stock);
         when(sellerRepository.save(seller)).thenReturn(seller);
 
         var response = mvc.perform(post("/stock/1")
@@ -175,7 +174,7 @@ class StockControllerTest {
         when(sellerService.findById(1l)).thenReturn(seller);
         when(productService.saveAll(products)).thenReturn(products);
         when(stockService.save(stock)).thenReturn(stock);
-        when(sellerService.saveStockInSeller(1l, stockPayload)).thenReturn(stock);
+        when(sellerService.saveProductInStockOfSeller(1l, stockPayload)).thenReturn(stock);
         when(sellerRepository.save(seller)).thenReturn(seller);
 
         when(sellerService.findStockBySeller(1l)).thenReturn(stock);
