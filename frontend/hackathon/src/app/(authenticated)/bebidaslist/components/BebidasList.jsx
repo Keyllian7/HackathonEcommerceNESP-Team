@@ -65,7 +65,7 @@ export const BebidasList = () => {
       <div className="flex justify-center mt-6">
         <button className="bg-gradient-to-r from-primary to-secondary text-white font-semibold py-2 px-4 rounded-lg flex items-center shadow-lg hover:from-fifth hover:to-quaternary transition-all duration-300 ease-in-out transform hover:scale-105">
           <Link href="/burguerlist" className="flex items-center space-x-2">
-            <span>Alternar para Burguer's</span>
+            <span>Alternar para Burguers</span>
             <Image
               src="/images/Hambuguer-Emoji.png"
               alt="Burguer"
