@@ -84,7 +84,8 @@ public class SellerController {
         return ResponseEntity.created(uri).body(new SellerPayloadResponse(seller));
     }
 
-    @Operation(summary = "Retorna uma lista de sellers",
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Retorna uma lista de sellers",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
@@ -98,7 +99,8 @@ public class SellerController {
         return ResponseEntity.ok(list.stream().map(SellerPayloadResponse::new));
     }
 
-    @Operation(summary = "Retorna o stock do seller pelo id",
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Retorna o stock do seller pelo id",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
@@ -112,7 +114,8 @@ public class SellerController {
         return ResponseEntity.ok(stockProducts.stream().map(ProductsPayloadResponse::new));
     }
 
-    @Operation(summary = "Retorna seller pelo id",
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Retorna seller pelo id",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
                             content = @Content(mediaType = "application/json")),
