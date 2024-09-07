@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { useSearchParams } from "next/navigation";
+//import { useSearchParams } from "next/navigation";
 import { BackBar } from "../burguerlist/components/BackBar";
 import { OptionsBarHome } from "../burguerlist/components/OptionsBarHome";
 import { ProductDescription } from "./components/ProductDescription";
 import { Items } from "../(Items)/components/Items";
 
 export default function VisualizarProduto() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  //const searchParams = useSearchParams();
+  //const id = searchParams.get("id");
 
   const allItems = [...Items.burguer, ...Items.bebidas];
   const itemSelecionado = allItems.find((item) => item.id === id);
