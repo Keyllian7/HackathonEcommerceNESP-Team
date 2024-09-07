@@ -1,26 +1,27 @@
+"use client";
+
 import { NavBar } from "./components/NavBar";
 import { ChooseMeal } from "./components/ChooseMeal";
 import { BestSellers } from "./components/BestSellers";
 import { Promotion } from "./components/Promotion";
 import { OptionsBar } from "./components/OptionsBar";
-
-export const generateMetadata = async () => {
-  return {
-    title: "Hamburgueria burguer service",
-    description: "Só os melhores hamburgueres encontrados aqui",
-  };
-}
+import { useState } from "react";
 
 export default function LandingPage() {
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("burguer");
+
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-grow"> 
+      <main className="flex-grow">
         <NavBar />
-        <ChooseMeal />
-        <BestSellers />
+        <ChooseMeal
+          setCategoriaSelecionada={setCategoriaSelecionada}
+          categoriaSelecionada={categoriaSelecionada}
+        />
+        <BestSellers categoriaSelecionada={categoriaSelecionada} />
         <Promotion />
       </main>
-        <OptionsBar/>
+      <OptionsBar />
     </div>
   );
 }

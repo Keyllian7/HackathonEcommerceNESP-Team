@@ -1,0 +1,105 @@
+.card{
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.return {
+    z-index: 10;
+    position: absolute;
+    font-size: 2.5em;
+    top: 0.5em; 
+    left: 2.5em;
+    transition: .2s linear;
+    color: #963C08;
+}
+
+.return:hover{
+   transform: scale(1.1);
+}
+
+.card img{
+    width: 500px;
+    height: auto;
+}
+
+.card h2{
+    font-size: 24px;
+    margin: 0 0 10px;
+}
+
+.description{
+    font-size: 16px;
+    color: #555;
+}
+
+.details{
+    padding: 20px;
+    flex: 1;
+}
+
+.price{
+    display: flex;
+    gap: 1em;
+}
+
+.price p{
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.desc{
+    text-decoration: line-through;
+    color: #666;
+}
+
+.textarea{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.textarea:focus {
+    border-color: #FFA500; /* Altere esta cor para a cor desejada ao focar */
+}
+
+
+@media screen and (max-width: 808px) {
+    /* Estilos aplicados a telas com largura máxima de 768px */
+    .card{
+        display: block;
+    }
+    .return{
+        font-size: 2.2em;
+        top: 0.5em; 
+        left: 2em;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    /* Estilos aplicados a telas com largura máxima de 768px */
+    
+    .return{
+        font-size: 2em;
+        top: 0.5em; 
+        left: 1.5em;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    /* Estilos aplicados a telas com largura máxima de 768px */
+    .card{
+        display: block;
+    }
+    .return{
+        font-size: 1.5em;
+        top: 0.8em; 
+        left: 1.5em;
+    }
+  }
