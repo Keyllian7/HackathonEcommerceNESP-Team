@@ -3,6 +3,8 @@ package com.burguer_server.services;
 import com.burguer_server.model.order.Order;
 import com.burguer_server.model.order.OrderItem;
 import com.burguer_server.repositories.OrderRepository;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.burguer_server.controllers.TwilioWebhookController.RECEIVER_PHONE_NUMBER;
+import static com.burguer_server.controllers.TwilioWebhookController.SERVER_PHONE_NUMBER;
 
 @Service
 @Transactional
@@ -34,7 +39,22 @@ public class OrderService {
     private ProductService productService;
 
     public Order save(Order order){
-        return repository.save(order);
+        Order orderSaved = repository.save(order);
+
+        System.out.println(orderSaved.getBuyer());
+
+        /*
+        String body = orderSaved.toString();
+
+        Message responseMessage = Message.creator(
+                new PhoneNumber(RECEIVER_PHONE_NUMBER),
+                new PhoneNumber(SERVER_PHONE_NUMBER), // Número de telefone da sua Twilio
+                "Recebemos sua mensagem: " + body
+        ).create();
+        System.out.println("Resposta enviada. Message SID: " + responseMessage.getSid());
+        */
+
+        return orderSaved;
     }
 
     public List<Order> saveAll(List<Order> order) {
