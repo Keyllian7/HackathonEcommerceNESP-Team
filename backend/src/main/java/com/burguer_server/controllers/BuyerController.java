@@ -6,7 +6,11 @@ import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.payloads.auth.DadosToken;
 import com.burguer_server.payloads.buyer.BuyerPayloadRequest;
 import com.burguer_server.payloads.buyer.BuyerPayloadResponse;
+import com.burguer_server.payloads.order.OrderPayloadRequest;
+import com.burguer_server.payloads.order.OrderPayloadResponse;
 import com.burguer_server.services.BuyerService;
+import com.burguer_server.services.OrderItemService;
+import com.burguer_server.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -171,4 +175,13 @@ public class BuyerController {
         }
 
     }
+
+    @PostMapping("/order")
+    public ResponseEntity createOrder(@RequestBody @Valid OrderPayloadRequest payloadRequest) {
+        var order = service.createOrder(payloadRequest);
+
+        return ResponseEntity.ok().body(order.stream().map(OrderPayloadResponse::new));
+    }
+
+
 }
