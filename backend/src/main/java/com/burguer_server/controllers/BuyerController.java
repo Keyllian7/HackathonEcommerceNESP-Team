@@ -82,7 +82,8 @@ public class BuyerController {
         return ResponseEntity.created(uri).body(new BuyerPayloadResponse(Buyer));
     }
 
-    @Operation(summary = "Retorna uma lista de Buyers",
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Retorna uma lista de Buyers",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
@@ -96,7 +97,8 @@ public class BuyerController {
         return ResponseEntity.ok(list.stream().map(BuyerPayloadResponse::new));
     }
 
-    @Operation(summary = "Retorna Buyer pelo id",
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Retorna Buyer pelo id",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200",
                             content = @Content(mediaType = "application/json")),
