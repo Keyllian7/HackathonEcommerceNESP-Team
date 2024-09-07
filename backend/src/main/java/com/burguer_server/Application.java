@@ -1,12 +1,13 @@
 package com.burguer_server;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@OpenAPIDefinition(servers = { @Server(url = "/", description = "Default Server URL")})
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 	public static final String ACCOUNT_SID = System.getenv("ACCOUNT_SID");
