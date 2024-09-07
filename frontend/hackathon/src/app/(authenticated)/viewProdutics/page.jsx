@@ -12,7 +12,7 @@ export default function VisualizarProduto() {
   //const id = searchParams.get("id");
 
   const allItems = [...Items.burguer, ...Items.bebidas];
-  const itemSelecionado = allItems.find((item) => item.id === id);
+  //const itemSelecionado = allItems.find((item) => item.id === id);
 
   if (!itemSelecionado) {
     return <div>Produto não encontrado</div>;
