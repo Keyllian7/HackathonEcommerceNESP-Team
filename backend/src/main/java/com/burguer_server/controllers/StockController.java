@@ -1,8 +1,6 @@
 package com.burguer_server.controllers;
 
 import com.burguer_server.payloads.products.ProductsPayloadRequest;
-import com.burguer_server.payloads.products.ProductsPayloadResponse;
-import com.burguer_server.payloads.stock.StockPayloadRequest;
 import com.burguer_server.payloads.stock.StockPayloadResponse;
 import com.burguer_server.services.SellerService;
 import com.burguer_server.services.StockService;
@@ -15,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/stock")
@@ -39,8 +39,8 @@ public class StockController {
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
     @PostMapping("/{idSeller}")
-    public ResponseEntity save(@PathVariable(name = "idSeller") Long idSeller, @RequestBody @Valid StockPayloadRequest payloadRequest, UriComponentsBuilder builder) {
-        var stock = sellerService.saveStockInSeller(idSeller, payloadRequest);
+    public ResponseEntity save(@PathVariable(name = "idSeller") Long idSeller, @RequestBody @Valid ProductsPayloadRequest payloadRequest, UriComponentsBuilder builder) {
+        var stock = sellerService.saveProductInStockOfSeller(idSeller, payloadRequest);
 
         var uri = builder.path("/stock/{id}").buildAndExpand(stock.getStockId()).toUri();
 

@@ -25,13 +25,6 @@ public class Stock implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockId;
 
-
-    /*@ElementCollection
-    @CollectionTable(name = "stock_products_tb", joinColumns = @JoinColumn(name = "stock_id"))
-    @MapKeyJoinColumn(name = "product_id")
-    @Column(name = "quantity", nullable = false)
-    private Map<Product, Integer> stockProduct = new HashMap<>();*/
-
     @JsonIgnore
     @OneToMany(mappedBy = "stock",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> stockProduct = new HashSet<>();

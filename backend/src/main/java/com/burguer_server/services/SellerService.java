@@ -3,8 +3,8 @@ package com.burguer_server.services;
 import com.burguer_server.model.product.Product;
 import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.user.Seller;
+import com.burguer_server.payloads.products.ProductsPayloadRequest;
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
-import com.burguer_server.payloads.stock.StockPayloadRequest;
 import com.burguer_server.repositories.SellerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -57,19 +57,30 @@ public class SellerService {
         return list;
     }
 
-    public Stock saveStockInSeller(Long idSeller, StockPayloadRequest stock) {
+    public Stock saveProductInStockOfSeller(Long idSeller, ProductsPayloadRequest productsPayloadRequest) {
+        // Busca o vendedor pelo ID
         var seller = findById(idSeller);
-        var stockConvertido = new Stock(stock);
-        productService.saveAll(stockConvertido.getStockProduct());
-        stockService.save(stockConvertido);
 
-        stockConvertido.getStockProduct().stream().forEach(p -> p.setStock(stockConvertido));
-        productService.saveAll(stockConvertido.getStockProduct());
+        // Obtém o estoque existente ou cria um novo se não existir
+        var stock = seller.getSellerStock() != null ? seller.getSellerStock() : new Stock();
 
-        seller.setSellerStock(stockConvertido);
+        // Converte os payloads de produto para entidades de produto
+        var product = new Product(productsPayloadRequest);
+
+        // Adiciona o produto ao estoque
+        stock.getStockProduct().add(product);
+
+        // Atualiza a referência do estoque no produto
+        product.setStock(stock);
+
+        // Salva o estoque, o que irá salvar o produto automaticamente devido ao cascade
+        stockService.save(stock);
+
+        // Atualiza o estoque no vendedor, se necessário
+        seller.setSellerStock(stock);
         repository.save(seller);
 
-        return stockService.save(stockConvertido);
+        return stock;
     }
 
     public Stock findStockBySeller(Long idSeller) {
