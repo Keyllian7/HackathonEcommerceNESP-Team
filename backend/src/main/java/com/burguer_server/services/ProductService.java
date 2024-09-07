@@ -25,16 +25,19 @@ public class ProductService {
 
     public Product save(ProductsPayloadRequest payloadRequest) {
 
-        var orderItems = payloadRequest.orderItems();
-        orderItemService.saveAll(orderItems);
-
         var productConvertido = new Product(payloadRequest);
-        repository.save(productConvertido);
 
-        orderItems.stream().forEach(p -> p.setProduct(productConvertido));
-        orderItemService.saveAll(orderItems);
+        if (payloadRequest.orderItems() != null) {
+            var orderItems = payloadRequest.orderItems();
+            orderItemService.saveAll(orderItems);
 
-        productConvertido.setOrderItems(orderItems);
+            repository.save(productConvertido);
+
+            orderItems.stream().forEach(p -> p.setProduct(productConvertido));
+            orderItemService.saveAll(orderItems);
+
+            productConvertido.setOrderItems(orderItems);
+        }
 
         return repository.save(productConvertido);
     }
