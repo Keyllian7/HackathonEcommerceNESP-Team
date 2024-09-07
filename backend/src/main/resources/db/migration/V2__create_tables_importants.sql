@@ -1,5 +1,6 @@
+-- Criação da tabela adress
 CREATE TABLE adress (
-    adressId BIGINT PRIMARY KEY AUTO_INCREMENT,
+    adressId BIGSERIAL PRIMARY KEY,
     adressCep VARCHAR(20),
     adressStreet VARCHAR(255),
     adressCity VARCHAR(100),
@@ -10,9 +11,8 @@ CREATE TABLE adress (
 
 -- Criação da tabela Buyer
 CREATE TABLE buyer (
-    idbuyer BIGINT PRIMARY KEY AUTO_INCREMENT,
-
-    role ENUM('ADMIN','USER' ,'SELLER', 'SELLER_INACTIVE', 'BUYER', 'BUYER_INACTIVE') NOT NULL DEFAULT 'BUYER',
+    idbuyer BIGSERIAL PRIMARY KEY,
+    role VARCHAR(20) CHECK (role IN ('ADMIN', 'USER', 'SELLER', 'SELLER_INACTIVE', 'BUYER', 'BUYER_INACTIVE')) NOT NULL DEFAULT 'BUYER',
     buyerFone_number VARCHAR(20),
     adress_id BIGINT,
     FOREIGN KEY (adress_id) REFERENCES adress(adressId)
@@ -20,44 +20,40 @@ CREATE TABLE buyer (
 
 -- Criação da tabela Stock associada ao Seller
 CREATE TABLE stock (
-    stockId BIGINT PRIMARY KEY AUTO_INCREMENT
+    stockId BIGSERIAL PRIMARY KEY
 );
-
 
 -- Criação da tabela Seller
 CREATE TABLE seller (
-    sellerId BIGINT PRIMARY KEY AUTO_INCREMENT,
-    role ENUM('ADMIN','USER' ,'SELLER', 'SELLER_INACTIVE', 'BUYER', 'BUYER_INACTIVE') NOT NULL DEFAULT 'SELLER',
+    sellerId BIGSERIAL PRIMARY KEY,
+    role VARCHAR(20) CHECK (role IN ('ADMIN', 'USER', 'SELLER', 'SELLER_INACTIVE', 'BUYER', 'BUYER_INACTIVE')) NOT NULL DEFAULT 'SELLER',
     sellerStock BIGINT,
     FOREIGN KEY (sellerStock) REFERENCES stock(stockId)
 );
 
-
-
 -- Criação da tabela Product
 CREATE TABLE product (
-    productId BIGINT PRIMARY KEY AUTO_INCREMENT,
+    productId BIGSERIAL PRIMARY KEY,
     productName VARCHAR(255),
-    productPrice FLOAT,
+    productPrice FLOAT8,  -- Float8 é recomendado em PostgreSQL para maior precisão
     productImageLink VARCHAR(255),
     productDescription TEXT,
-    productCategory ENUM('HAMBURGUER','DRINK')
+    productCategory VARCHAR(20) CHECK (productCategory IN ('HAMBURGUER', 'DRINK'))
 );
-
 
 -- Criação da tabela Order
 CREATE TABLE orders (
-    orderId BIGINT PRIMARY KEY AUTO_INCREMENT,
+    orderId BIGSERIAL PRIMARY KEY,
     idBuyer BIGINT,
-    orderDeliveryTax FLOAT,
-    orderTotal FLOAT,
+    orderDeliveryTax FLOAT8,  -- Float8 é recomendado em PostgreSQL para maior precisão
+    orderTotal FLOAT8,  -- Float8 é recomendado em PostgreSQL para maior precisão
     currentOrderStatus VARCHAR(50),
-    FOREIGN KEY (idBuyer) REFERENCES buyer(idBuyer)
+    FOREIGN KEY (idBuyer) REFERENCES buyer(idbuyer)
 );
 
 -- Criação da tabela OrderItem associada a Order e Product
 CREATE TABLE order_item (
-    orderItemId BIGINT PRIMARY KEY AUTO_INCREMENT,
+    orderItemId BIGSERIAL PRIMARY KEY,
     orderId BIGINT,
     productId BIGINT,
     quantity INT,
@@ -68,28 +64,20 @@ CREATE TABLE order_item (
 
 -- Criação da tabela OrderStatus associada a Order
 CREATE TABLE order_status (
-    orderStatusId BIGINT PRIMARY KEY AUTO_INCREMENT,
+    orderStatusId BIGSERIAL PRIMARY KEY,
     idOrder BIGINT,
-    orderStatusTimeStamp DATETIME,
+    orderStatusTimeStamp TIMESTAMPTZ,  -- TIMESTAMPTZ é recomendado para armazenar timestamps com timezone
     orderStatusDescription VARCHAR(255),
     FOREIGN KEY (idOrder) REFERENCES orders(orderId)
 );
 
 -- Criação da tabela Payment associada a Order
 CREATE TABLE payment (
-    idPayment BIGINT PRIMARY KEY AUTO_INCREMENT,
+    idPayment BIGSERIAL PRIMARY KEY,
     order_id BIGINT,
-    total FLOAT NOT NULL,
+    total FLOAT8 NOT NULL,  -- Float8 é recomendado em PostgreSQL para maior precisão
     isPaid BOOLEAN NOT NULL,
-    paymentMethod ENUM('CARD', 'CASH', 'PIX') NOT NULL,
-    paymentStatus ENUM('PAID', 'PENDING', 'DENIED') NOT NULL,
+    paymentMethod VARCHAR(10) CHECK (paymentMethod IN ('CARD', 'CASH', 'PIX')) NOT NULL,
+    paymentStatus VARCHAR(10) CHECK (paymentStatus IN ('PAID', 'PENDING', 'DENIED')) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(orderId)
 );
-
-
-
-
-
-
-
-
