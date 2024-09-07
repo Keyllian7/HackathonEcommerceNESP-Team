@@ -5,7 +5,7 @@ export const SearchBar = () => {
   return (
     <div className="flex flex-col items-center bg-quaternary p-6">
       <header className="flex justify-center mb-6">
-        <h1 className="text-white text-2xl font-bold">Cardápio Burguer's</h1>
+        <h1 className="text-white text-2xl font-bold">Cardápio Burguers</h1>
       </header>
 
       <div className="flex items-center mb-6 mt-6">
