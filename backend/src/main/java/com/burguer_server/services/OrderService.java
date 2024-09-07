@@ -43,13 +43,16 @@ public class OrderService {
 
         System.out.println(orderSaved.getBuyer());
 
-//        String body = orderSaved.toString();
-//        Message responseMessage = Message.creator(
-//                new PhoneNumber(RECEIVER_PHONE_NUMBER),
-//                new PhoneNumber(SERVER_PHONE_NUMBER), // Número de telefone da sua Twilio
-//                "Recebemos sua mensagem: " + body
-//        ).create();
-//        System.out.println("Resposta enviada. Message SID: " + responseMessage.getSid());
+        /*
+        String body = orderSaved.toString();
+
+        Message responseMessage = Message.creator(
+                new PhoneNumber(RECEIVER_PHONE_NUMBER),
+                new PhoneNumber(SERVER_PHONE_NUMBER), // Número de telefone da sua Twilio
+                "Recebemos sua mensagem: " + body
+        ).create();
+        System.out.println("Resposta enviada. Message SID: " + responseMessage.getSid());
+        */
 
         return orderSaved;
     }
