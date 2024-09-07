@@ -38,15 +38,11 @@ public class SellerService {
         var sellerConvertido = new Seller(payload);
         sellerConvertido.setPassword(passwordEncoder.encode(sellerConvertido.getPassword())); // Transforma a senha em BCrypt
 
-//        // Primeiro, salvar os produtos
-//        Set<Product> savedProducts = productService.saveAll(payload.sellerStock().getStockProduct());
-//        sellerConvertido.getSellerStock().setStockProduct(savedProducts);
-//
-//        // Salvar o stock com os produtos
-//        Stock savedStock = stockService.save(sellerConvertido.getSellerStock());
-//        sellerConvertido.setSellerStock(savedStock);
+        if (payload.sellerStock() == null) {
+            sellerConvertido.setSellerStock(null);
+        }
 
-        // Finalmente, salvar o seller com o stock
+        // Salva o seller
         return repository.save(sellerConvertido);
     }
 
