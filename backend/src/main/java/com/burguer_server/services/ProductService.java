@@ -1,6 +1,6 @@
 package com.burguer_server.services;
 
-import com.burguer_server.model.order.OrderItem;
+import com.burguer_server.model.enums.ProductCategory;
 import com.burguer_server.model.product.Product;
 import com.burguer_server.payloads.products.ProductsPayloadRequest;
 import com.burguer_server.repositories.ProductRepository;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,6 +60,16 @@ public class ProductService {
         var list = repository.findAll();
         var setList = list.stream().collect(Collectors.toSet());
         return setList;
+    }
+
+    public Set<Product> findHamburgueres() {
+        var list = findAll().stream().filter(p -> p.getProductCategory() == ProductCategory.HAMBURGUER).collect(Collectors.toSet());
+        return list;
+    }
+
+    public Set<Product> findDrinks() {
+        var list = findAll().stream().filter(p -> p.getProductCategory() == ProductCategory.DRINK).collect(Collectors.toSet());
+        return list;
     }
 
     public void deleteById(Long id) {

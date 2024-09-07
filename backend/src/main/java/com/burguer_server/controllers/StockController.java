@@ -9,6 +9,7 @@ import com.burguer_server.services.StockService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class StockController {
     @Autowired
     private StockService service;
 
-    @Operation(summary = "Salva Stock no sistema vinculado ao Seller", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Salva Stock no sistema vinculado ao Seller", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Objeto JSON contendo os dados do Stock",
             required = true,
             content = @Content(mediaType = "application/json")),
@@ -45,7 +47,7 @@ public class StockController {
         return ResponseEntity.created(uri).body(new StockPayloadResponse(stock));
     }
 
-    @Operation(summary = "Retorna uma lista de Stock",
+    @Operation(summary = "Retorna uma lista de Stock pelo id do seller",
             responses = {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),

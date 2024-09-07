@@ -7,6 +7,7 @@ import com.burguer_server.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-    @Operation(summary = "Salva Product no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+    @Operation(security = { @SecurityRequirement(name = "bearer-key")},
+            summary = "Salva Product no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Objeto JSON contendo os dados do Product",
             required = true,
             content = @Content(mediaType = "application/json")),
@@ -54,5 +56,34 @@ public class ProductController {
 
         return ResponseEntity.ok(list.stream().map(ProductsPayloadResponse::new));
     }
+
+    @Operation(summary = "Retorna uma lista de Products da categoria hamburguer",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+                    @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/hamburgueres")
+    public ResponseEntity findHamburgueres() {
+        var list = service.findHamburgueres();
+
+        return ResponseEntity.ok(list.stream().map(ProductsPayloadResponse::new));
+    }
+
+    @Operation(summary = "Retorna uma lista de Products da categoria Drinks",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+                    @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/drinks")
+    public ResponseEntity findDrinks() {
+        var list = service.findDrinks();
+
+        return ResponseEntity.ok(list.stream().map(ProductsPayloadResponse::new));
+    }
+
 
 }
