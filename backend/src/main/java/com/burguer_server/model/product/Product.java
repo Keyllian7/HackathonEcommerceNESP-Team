@@ -2,7 +2,9 @@ package com.burguer_server.model.product;
 
 import com.burguer_server.model.enums.ProductCategory;
 import com.burguer_server.model.order.OrderItem;
+import com.burguer_server.payloads.products.ProductsPayloadRequest;
 import com.burguer_server.payloads.products.ProductsPayloadResponse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +28,8 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 
-    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false)
@@ -45,7 +48,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "stockId")
     private Stock stock;
 
-    public Product(ProductsPayloadResponse payload) {
+    public Product(ProductsPayloadRequest payload) {
         this.productCategory = payload.productCategory();
         this.orderItems = payload.orderItems();
         this.productName = payload.productName();

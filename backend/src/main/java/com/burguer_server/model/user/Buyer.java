@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,8 +26,6 @@ public class Buyer extends User {
     @JsonIgnore
     @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
     private List<Order> buyerOrdersHistory;
-
-    //private Cart buyerCart;
 
     public Buyer(Long id, String email, String password, UserRole BUYER_ROLE, Adress buyerAdress, String buyerFoneNumber, List<Order> buyerOrdersHistory) {
         super(id, email, password, BUYER_ROLE);

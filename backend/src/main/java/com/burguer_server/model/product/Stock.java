@@ -1,6 +1,7 @@
 package com.burguer_server.model.product;
 
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
+import com.burguer_server.payloads.stock.StockPayloadRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,10 @@ public class Stock implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "stock",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> stockProduct = new HashSet<>();
+
+    public Stock(StockPayloadRequest payloadRequest) {
+        this.stockProduct = payloadRequest.stockProduct();
+    }
 
 
     public void updateStockProductQuantityAvailable(Product product, int quantity) {
