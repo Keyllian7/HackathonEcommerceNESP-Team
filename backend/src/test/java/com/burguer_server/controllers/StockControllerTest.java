@@ -54,6 +54,8 @@ class StockControllerTest {
     @Autowired
     private JacksonTester<StockPayloadRequest> stockPayloadRequest;
 
+    @Autowired
+    private JacksonTester<ProductsPayloadRequest> productsPayloadRequest;
     @MockBean
     private SellerService sellerService;
 
@@ -87,7 +89,7 @@ class StockControllerTest {
         // Mock para salvar o Seller
         when(sellerService.save(sellerPayload)).thenReturn(seller);
 
-        // Salvar o Seller via API
+        // Simular requisição para salvar o Seller
         var saveResponse = mvc.perform(post("/seller")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sellerPayloadRequest.write(new SellerPayloadRequest(seller)).getJson()))
@@ -97,36 +99,37 @@ class StockControllerTest {
         Assertions.assertEquals(HttpStatus.CREATED.value(), saveResponse.getStatus());
 
         // Criação do produto
-        var product = new Product(1L, ProductCategory.HAMBURGUER, null, "Hamburguer de siri", 25.00f,"", "bom", null );
+        var product = new Product(1L, ProductCategory.HAMBURGUER, null, "Hamburguer de siri", 25.00f, "", "bom", null);
 
+        var productPayload = new ProductsPayloadRequest(product);
         // Criação do conjunto de produtos
         Set<Product> products = new HashSet<>(Set.of(product));
 
-        // Criação do stock com os produtos
+        // Mock para salvar produtos e associar ao estoque
+        when(productService.saveAll(products)).thenReturn(products);
+
+        // Criação do Stock com os produtos
         var stock = new Stock(1L, products);
 
-        // Mock para salvar produtos e associar ao stock
-        when(productService.saveAll(products)).thenReturn(products);
-        products.forEach(p -> p.setStock(stock));
 
-        // Mock para salvar o stock
-        when(stockService.save(stock)).thenReturn(stock);
-
-        var stockPayload = new StockPayloadRequest(stock);
-
-        when(sellerService.findById(1l)).thenReturn(seller);
-        when(productService.saveAll(products)).thenReturn(products);
-        when(stockService.save(stock)).thenReturn(stock);
-        var productPayloadRequest = new ProductsPayloadRequest(product);
-        when(sellerService.saveProductInStockOfSeller(1l, productPayloadRequest)).thenReturn(stock);
+        // Mock para o Seller e as operações de estoque
+        when(sellerService.findById(1L)).thenReturn(seller);
         when(sellerRepository.save(seller)).thenReturn(seller);
 
+        // Mock para salvar o produto individualmente
+        var productPayloadRequest = new ProductsPayloadRequest(product);
+        when(productService.save(productPayloadRequest)).thenReturn(product);
+
+        // Mock para salvar o estoque no Seller
+        when(sellerService.saveProductInStockOfSeller(1L, productPayloadRequest)).thenReturn(stock);
+
+        // Simular requisição para salvar Stock no Seller
         var response = mvc.perform(post("/stock/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(stockPayloadRequest.write(stockPayload).getJson()))
+                        .content(productsPayloadRequest.write(productPayload).getJson()))
                 .andReturn().getResponse();
 
-        // Gerar o JSON esperado de resposta com o produto no stock
+        // Gerar o JSON esperado de resposta com o produto no Stock
         var jsonEsperado = stockPayloadResponse.write(new StockPayloadResponse(stock)).getJson();
 
         // Verificar se o Stock foi salvo com sucesso
@@ -134,7 +137,6 @@ class StockControllerTest {
 
         // Verificar se o JSON da resposta é o esperado
         Assertions.assertEquals(jsonEsperado, response.getContentAsString());
-
     }
 
     @Test
@@ -175,11 +177,12 @@ class StockControllerTest {
         when(stockService.save(stock)).thenReturn(stock);
 
         var stockPayload = new StockPayloadRequest(stock);
+        var productsPayloadRequest = new ProductsPayloadRequest(product);
 
         when(sellerService.findById(1l)).thenReturn(seller);
         when(productService.saveAll(products)).thenReturn(products);
         when(stockService.save(stock)).thenReturn(stock);
-        when(sellerService.saveProductInStockOfSeller(1l, stockPayload)).thenReturn(stock);
+        when(sellerService.saveProductInStockOfSeller(1l, productsPayloadRequest)).thenReturn(stock);
         when(sellerRepository.save(seller)).thenReturn(seller);
 
         when(sellerService.findStockBySeller(1l)).thenReturn(stock);

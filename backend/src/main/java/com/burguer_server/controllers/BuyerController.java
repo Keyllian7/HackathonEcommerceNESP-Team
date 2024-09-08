@@ -197,7 +197,7 @@ public class BuyerController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @GetMapping("/cart/{idBuyer}")
-    public ResponseEntity<List<OrderItemPayloadResponse>> getOrderItemsByBuyerId(@PathVariable(name = "idBuyergi") Long buyerId) {
+    public ResponseEntity<List<OrderItemPayloadResponse>> getOrderItemsByBuyerId(@PathVariable(name = "idBuyer") Long buyerId) {
         List<OrderItem> orderItems = orderItemService.findAllByBuyer(buyerId);
 
         // Convertendo OrderItems para OrderItemPayloadResponse
