@@ -2,6 +2,7 @@ package com.burguer_server.model.order;
 
 import com.burguer_server.model.user.Buyer;
 import com.burguer_server.model.payment.Payment;
+import com.burguer_server.payloads.order.OrderPayloadRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,6 +48,15 @@ public class Order implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderStatus> statusHistory;
+
+    public Order(OrderPayloadRequest payloadRequest) {
+        this.buyer = payloadRequest.buyer();
+        this.orderItems = payloadRequest.orderItems();
+        this.orderDeliveryTax = payloadRequest.orderDeliveryTax();
+        this.orderTotal = payloadRequest.orderTotal();
+        this.orderPayment = payloadRequest.orderPayment();
+        this.currentOrderStatus = payloadRequest.currentOrderStatus();
+    }
 
     private float calculateOrderTotal(){
         return 0.0f;

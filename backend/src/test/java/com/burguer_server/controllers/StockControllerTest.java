@@ -5,6 +5,7 @@ import com.burguer_server.model.enums.UserRole;
 import com.burguer_server.model.product.Product;
 import com.burguer_server.model.product.Stock;
 import com.burguer_server.model.user.Seller;
+import com.burguer_server.payloads.products.ProductsPayloadRequest;
 import com.burguer_server.payloads.products.ProductsPayloadResponse;
 import com.burguer_server.payloads.seller.SellerPayloadRequest;
 import com.burguer_server.payloads.stock.StockPayloadRequest;
@@ -55,6 +56,9 @@ class StockControllerTest {
 
     @MockBean
     private SellerService sellerService;
+
+    @Autowired
+    private JacksonTester<List<ProductsPayloadRequest>> productPayloadRequest;
 
     @Autowired
     private JacksonTester<List<ProductsPayloadResponse>> productsPayloadResponse;
@@ -113,7 +117,8 @@ class StockControllerTest {
         when(sellerService.findById(1l)).thenReturn(seller);
         when(productService.saveAll(products)).thenReturn(products);
         when(stockService.save(stock)).thenReturn(stock);
-        when(sellerService.saveProductInStockOfSeller(1l, stockPayload)).thenReturn(stock);
+        var productPayloadRequest = new ProductsPayloadRequest(product);
+        when(sellerService.saveProductInStockOfSeller(1l, productPayloadRequest)).thenReturn(stock);
         when(sellerRepository.save(seller)).thenReturn(seller);
 
         var response = mvc.perform(post("/stock/1")

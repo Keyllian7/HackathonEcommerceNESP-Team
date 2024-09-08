@@ -3,8 +3,6 @@ package com.burguer_server.services;
 import com.burguer_server.model.order.Order;
 import com.burguer_server.model.order.OrderItem;
 import com.burguer_server.repositories.OrderRepository;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.burguer_server.controllers.TwilioWebhookController.RECEIVER_PHONE_NUMBER;
-import static com.burguer_server.controllers.TwilioWebhookController.SERVER_PHONE_NUMBER;
 
 @Service
 @Transactional
@@ -57,14 +52,16 @@ public class OrderService {
         return orderSaved;
     }
 
+    public List<OrderItem> findCart(Long idBuyer) {
+        var list = findAll().stream().filter(o -> o.getBuyer().getId() == idBuyer).map(o -> o.getOrderItems()).collect(Collectors.toList());
+        var l2 = list.stream().flatMap(List::stream).collect(Collectors.toList());
+        return l2;
+    }
+
     public List<Order> saveAll(List<Order> order) {
 
         // Extrai uma lista de orderItems de todos os pedidos
         List<OrderItem> listOrderItem = order.stream().flatMap(o -> o.getOrderItems().stream()).collect(Collectors.toList());
-
-//        // Extrai os produtos e garante que todos estejam salvos
-//        var products = listOrderItem.stream().map(OrderItem::getProduct).collect(Collectors.toSet());
-//        productService.saveAll(products); // Salva os produtos
 
         // Salva os orderItems depois que os produtos foram salvos
         orderItemService.saveAll(listOrderItem);
