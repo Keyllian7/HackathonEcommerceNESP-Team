@@ -1,6 +1,7 @@
 package com.burguer_server.controllers;
 
 import com.burguer_server.infra.security.TokenService;
+import com.burguer_server.model.order.OrderItem;
 import com.burguer_server.model.user.User;
 import com.burguer_server.payloads.auth.DadosAutenticacao;
 import com.burguer_server.payloads.auth.DadosToken;
@@ -8,6 +9,9 @@ import com.burguer_server.payloads.buyer.BuyerPayloadRequest;
 import com.burguer_server.payloads.buyer.BuyerPayloadResponse;
 import com.burguer_server.payloads.order.OrderPayloadRequest;
 import com.burguer_server.payloads.order.OrderPayloadResponse;
+import com.burguer_server.payloads.orderitem.OrderItemPayloadResponse;
+import com.burguer_server.payloads.products.ProductsPayloadRequest;
+import com.burguer_server.payloads.products.ProductsPayloadResponse;
 import com.burguer_server.services.BuyerService;
 import com.burguer_server.services.OrderItemService;
 import com.burguer_server.services.OrderService;
@@ -26,6 +30,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/buyer")
 public class BuyerController {
@@ -38,6 +44,12 @@ public class BuyerController {
 
     @Autowired
     private BuyerService service;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderItemService orderItemService;
 
     @Operation(summary = "Faz login do Buyer no sistema", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Objeto JSON contendo os dados do Buyer",
@@ -176,11 +188,58 @@ public class BuyerController {
 
     }
 
-    @PostMapping("/order")
-    public ResponseEntity createOrder(@RequestBody @Valid OrderPayloadRequest payloadRequest) {
-        var order = service.createOrder(payloadRequest);
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            summary = "Retorna lista de pedido de um Buyer",  responses = {
+            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "204"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
+            @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+            @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @GetMapping("/cart/{idBuyer}")
+    public ResponseEntity<List<OrderItemPayloadResponse>> getOrderItemsByBuyerId(@PathVariable(name = "idBuyergi") Long buyerId) {
+        List<OrderItem> orderItems = orderItemService.findAllByBuyer(buyerId);
 
-        return ResponseEntity.ok().body(order.stream().map(OrderPayloadResponse::new));
+        // Convertendo OrderItems para OrderItemPayloadResponse
+        List<OrderItemPayloadResponse> response = orderItems.stream()
+                .map(orderItem -> new OrderItemPayloadResponse(
+                        orderItem.getOrderItemId(),
+                        orderItem.getProduct(),
+                        orderItem.getQuantity(),
+                        orderItem.getNotes()
+                )).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            summary = "Salva pedido do buyer",  responses = {
+            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
+            @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+            @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @PostMapping("/order/{idBuyer}")
+    public ResponseEntity createOrder(@PathVariable (name = "idBuyer") Long idBuyer, @RequestBody @Valid OrderPayloadRequest payloadRequest) {
+        var order = service.createOrder(idBuyer, payloadRequest);
+
+        return ResponseEntity.ok().body(new OrderPayloadResponse(order));
+    }
+
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            summary = "Salva produto no pedido do buyer",  responses = {
+            @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Buyer"),
+            @ApiResponse(responseCode = "401", description = "Erro de Autenticação"),
+            @ApiResponse(responseCode = "403", description = "Requisição não autorizada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @PostMapping("/order/product/{idBuyer}")
+    public ResponseEntity saveProductInOrder(@PathVariable (name = "idBuyer") Long idBuyer, @RequestBody @Valid ProductsPayloadRequest payloadRequest) {
+        var product = service.saveProductInOrder(idBuyer, payloadRequest);
+
+        return ResponseEntity.ok().body(new ProductsPayloadResponse(product));
     }
 
 

@@ -43,6 +43,10 @@ public class ProductService {
     }
 
     public Set<Product> saveAll(Set<Product> products) {
+        if (products == null || products.isEmpty()) {
+            throw new IllegalArgumentException("Product list must not be empty or null.");
+        }
+
         return new HashSet<>(repository.saveAll(products)); // Retorna os produtos salvos
     }
 
